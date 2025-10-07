@@ -124,13 +124,16 @@
     <label for="name">1. Name:</label>
     <input type="text" name="Name" required>
 
-    <label for="complaint">2. Chief Complaint:</label>
+    <label for="email">2. Your Email:</label>
+    <input type="email" id="user-email" name="email" required>
+
+    <label for="complaint">3. Chief Complaint:</label>
     <textarea name="Chief Complaint" rows="3"></textarea>
 
-    <label for="history">3. History:</label>
+    <label for="history">4. History:</label>
     <textarea name="History" rows="3"></textarea>
 
-    <label>4. Visual Acuity:</label>
+    <label>5. Visual Acuity:</label>
     <div class="group">
       <input type="text" name="Without PGP - R.E" placeholder="Without PGP - R.E">
       <input type="text" name="Without PGP - L.E" placeholder="Without PGP - L.E">
@@ -140,7 +143,7 @@
       <input type="text" name="With PGP - L.E" placeholder="With PGP - L.E">
     </div>
 
-    <label>5. Final RX:</label>
+    <label>6. Final RX:</label>
     <table>
       <thead>
         <tr>
@@ -171,26 +174,26 @@
       </tbody>
     </table>
 
-    <label for="frame">6. Frame:</label>
+    <label for="frame">7. Frame:</label>
     <input type="text" name="Frame">
 
-    <label for="lens_type">7. Lens Type:</label>
+    <label for="lens_type">8. Lens Type:</label>
     <div class="checkbox-group">
       <label><input type="checkbox" name="Lens Type[]" value="Single Vision"> Single Vision</label>
       <label><input type="checkbox" name="Lens Type[]" value="Bifocal"> Bifocal</label>
       <label><input type="checkbox" name="Lens Type[]" value="Progressive"> Progressive</label>
     </div>
 
-    <label for="lens_name">8. Lens Name:</label>
+    <label for="lens_name">9. Lens Name:</label>
     <input type="text" name="Lens Name">
 
-    <label for="lens_index">9. Lens Index:</label>
+    <label for="lens_index">10. Lens Index:</label>
     <input type="text" name="Lens Index">
 
-    <label for="lens_coating">10. Lens Coating:</label>
+    <label for="lens_coating">11. Lens Coating:</label>
     <input type="text" name="Lens Coating">
 
-    <label>11. Advice For:</label>
+    <label>12. Advice For:</label>
     <div class="checkbox-group">
       <label><input type="checkbox" name="Advice[]" value="Constant Use"> Constant Use</label>
       <label><input type="checkbox" name="Advice[]" value="Near Use"> Near Use</label>
@@ -199,7 +202,7 @@
       <label><input type="checkbox" name="Advice[]" value="Night"> Night</label>
     </div>
 
-    <label>Confirmation:</label>
+    <label>13. Confirmation:</label>
     <div class="checkbox-group">
       <label><input type="checkbox" name="Confirm[]" value="OK with previous prescription"> OK with my previous prescription</label>
       <label><input type="checkbox" name="Confirm[]" value="Agreed with new power"> Agreed with new power prescribed</label>
@@ -221,7 +224,8 @@
     <input type="submit" value="Submit Prescription">
 
     <!-- Hidden Formsubmit settings -->
-     <input type="hidden" name="_next" value="https://mhshohag-ice.github.io/opsis-form/thank-you.html">
+    <input type="hidden" id="cc-email" name="_cc" value="">
+    <input type="hidden" name="_next" value="https://mhshohag-ice.github.io/opsis-form/thank-you.html">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
   </form>
@@ -231,6 +235,13 @@
   &copy; 2025 Opsis Vision Center. All rights reserved.
 </footer>
 
+<!-- JavaScript to auto-fill _cc field -->
+<script>
+  document.querySelector("form").addEventListener("submit", function () {
+    const userEmail = document.getElementById("user-email").value;
+    document.getElementById("cc-email").value = userEmail;
+  });
+</script>
+
 </body>
 </html>
-
