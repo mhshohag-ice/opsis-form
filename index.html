@@ -225,7 +225,7 @@
 
     <!-- Hidden Formsubmit settings -->
     <input type="hidden" id="cc-email" name="_cc" value="">
-    <input type="hidden" name="_next" value="https://mhshohag-ice.github.io/opsis-form/index.html?submitted=true">
+    <input type="hidden" name="_next" value="https://mhshohag-ice.github.io/thank-you.html">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
   </form>
@@ -242,30 +242,9 @@
     document.getElementById("cc-email").value = userEmail;
   });
 </script>
-  <script>
-  window.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('submitted') === 'true') {
-      const message = document.createElement('div');
-      message.textContent = '✅ Form submitted successfully!';
-      message.style.background = '#d4edda';
-      message.style.color = '#155724';
-      message.style.border = '1px solid #c3e6cb';
-      message.style.padding = '15px';
-      message.style.borderRadius = '5px';
-      message.style.marginBottom = '20px';
-      message.style.textAlign = 'center';
-      document.querySelector('main').prepend(message);
-
-      // Remove the query parameter from the URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  });
-</script>
-
-
 </body>
 </html>
+
 
 
 
