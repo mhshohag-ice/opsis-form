@@ -2,304 +2,333 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Thank You - Opsis Vision Center</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Opsis Vision Center - Prescription Form</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f5f5f5;
+      background-color: #f0f8ff;
+      text-align: center;
+      padding: 80px 20px;
       color: #333;
     }
-    header {
+    h1 {
+      font-size: 2.5em;
+      color: #00557f;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.2em;
+      margin-bottom: 40px;
+    }
+    a.button, button.print-button {
       background-color: #00557f;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background 0.3s ease;
+      cursor: pointer;
+      border: none;
+      margin: 10px;
+      display: inline-block;
     }
-    header h1 {
-      margin: 0;
+    a.button:hover, button.print-button:hover {
+      background-color: #004261;
     }
-    header p {
-      margin: 5px 0 0;
-    }
-    main {
-      max-width: 900px;
+
+    /* Styles for the print-friendly form clone */
+    #printFormContainer {
+      display: none; /* Hide by default, only show when printing */
+      max-width: 900px; /* Match your main form width */
       margin: auto;
       background: #fff;
-      padding: 30px;
+      padding: 30px; /* Match your main form padding */
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: left; /* Ensure text alignment is good for the form */
     }
-    h2 {
+
+    #printFormContainer h2 {
       color: #00557f;
       margin-bottom: 10px;
+      text-align: center; /* Center the form title */
     }
-    label {
+    #printFormContainer label {
       display: block;
       margin-top: 15px;
       font-weight: bold;
     }
-    input[type="text"],
-    input[type="email"],
-    textarea {
+    #printFormContainer input[type="text"],
+    #printFormContainer input[type="email"],
+    #printFormContainer textarea {
       width: 100%;
       padding: 8px;
       margin-top: 5px;
       border: 1px solid #ccc;
       border-radius: 5px;
+      background-color: #f9f9f9; /* Make populated fields distinct */
+      color: #333;
     }
-    .group {
+    #printFormContainer .group {
       display: flex;
       gap: 20px;
       margin-bottom: 15px;
     }
-    .group input {
+    #printFormContainer .group input {
       flex: 1;
     }
-    table {
+    #printFormContainer table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
       margin-bottom: 20px;
     }
-    th, td {
+    #printFormContainer th, #printFormContainer td {
       border: 1px solid #ccc;
       padding: 6px;
       text-align: center;
     }
-    .checkbox-group {
+    #printFormContainer .checkbox-group {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 10px;
     }
-    .checkbox-group label {
+    #printFormContainer .checkbox-group label {
       font-weight: normal;
     }
-    .signature-section {
+    #printFormContainer .signature-section {
       display: flex;
       justify-content: space-between;
       margin-top: 30px;
     }
-    .signature-line {
+    #printFormContainer .signature-line {
       width: 45%;
       border-top: 1px solid #000;
       text-align: center;
       font-size: 14px;
       margin-top: 50px;
     }
-    input[type="submit"] {
-      margin-top: 30px;
-      background-color: #00557f;
-      color: white;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
+    /* Hide submit buttons in the cloned form */
+    #printFormContainer input[type="submit"] {
+        display: none;
     }
-    input[type="submit"]:hover {
-      background-color: #00415f;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      color: #555;
+
+
+    /* Styles specifically for printing */
+    @media print {
+      body {
+        background-color: #fff;
+        padding: 0;
+        text-align: left;
+      }
+      /* Hide the main thank you message and buttons */
+      h1, p, a.button, button.print-button {
+        display: none;
+      }
+      /* Show ONLY the print-friendly form clone */
+      #printFormContainer {
+        display: block;
+        box-shadow: none; /* No shadow when printing */
+        border: none; /* No border when printing */
+        padding: 10px; /* Adjust padding for print if needed */
+        margin: 0; /* Remove margins for print */
+        max-width: 100%; /* Use full width for print */
+      }
+      /* Further print specific adjustments for inputs/textareas */
+      #printFormContainer input[type="text"],
+      #printFormContainer input[type="email"],
+      #printFormContainer textarea {
+          border: 1px dashed #999; /* Lighter border for print */
+          background-color: transparent; /* No background fill for print */
+          padding: 3px; /* Smaller padding for print */
+      }
+      #printFormContainer table {
+          page-break-inside: auto; /* Allow tables to break across pages */
+      }
+      #printFormContainer tr {
+          page-break-inside: avoid; /* Keep rows together */
+          page-break-after: auto;
+      }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Opsis Vision Center</h1>
-  <p>Concord Sohel Square, G-A, 75 Satmasjid Road, Dhanmondi, Dhaka-1209</p>
-</header>
+  <h1>Thank You!</h1>
+  <p>Your prescription form has been submitted successfully.</p>
 
-<main>
-  <h2>Spectacles Prescription Form</h2>
+  <div id="printFormContainer">
+    <h2>Spectacles Prescription Form (Submitted Details)</h2>
 
-  <form id="prescriptionForm" action="https://formsubmit.co/mhshohag.ice@gmail.com" method="POST">
+    <!-- This is a *duplicate* of your form's HTML from index.html -->
+    <!-- We'll populate this with JS -->
+    <form id="displayForm">
+      <!-- NOTE: Remove 'action' and 'method' attributes from this display form -->
+      <!-- Remove 'required' attributes as well, not needed for display -->
 
-    <label for="name">1. Name:</label>
-    <input type="text" name="Name" required>
+      <label for="name">1. Name:</label>
+      <input type="text" name="Name" readonly> <!-- 'readonly' prevents user from editing -->
 
-    <label for="email">2. Your Email:</label>
-    <input type="email" id="user-email" name="email" required>
+      <label for="email">2. Your Email:</label>
+      <input type="email" name="email" readonly>
 
-    <label for="complaint">3. Chief Complaint:</label>
-    <textarea name="Chief Complaint" rows="3"></textarea>
+      <label for="complaint">3. Chief Complaint:</label>
+      <textarea name="Chief Complaint" rows="3" readonly></textarea>
 
-    <label for="history">4. History:</label>
-    <textarea name="History" rows="3"></textarea>
+      <label for="history">4. History:</label>
+      <textarea name="History" rows="3" readonly></textarea>
 
-    <label>5. Visual Acuity:</label>
-    <div class="group">
-      <input type="text" name="Without PGP - R.E" placeholder="Without PGP - R.E">
-      <input type="text" name="Without PGP - L.E" placeholder="Without PGP - L.E">
-    </div>
-    <div class="group">
-      <input type="text" name="With PGP - R.E" placeholder="With PGP - R.E">
-      <input type="text" name="With PGP - L.E" placeholder="With PGP - L.E">
-    </div>
-
-    <label>6. Final RX:</label>
-    <table>
-      <thead>
-        <tr>
-          <th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>ADD</th><th>Prism</th><th>Base</th><th>V/A</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>OD</td>
-          <td><input type="text" name="OD_Sph"></td>
-          <td><input type="text" name="OD_Cyl"></td>
-          <td><input type="text" name="OD_Axis"></td>
-          <td><input type="text" name="OD_ADD"></td>
-          <td><input type="text" name="OD_Prism"></td>
-          <td><input type="text" name="OD_Base"></td>
-          <td><input type="text" name="OD_VA"></td>
-        </tr>
-        <tr>
-          <td>OS</td>
-          <td><input type="text" name="OS_Sph"></td>
-          <td><input type="text" name="OS_Cyl"></td>
-          <td><input type="text" name="OS_Axis"></td>
-          <td><input type="text" name="OS_ADD"></td>
-          <td><input type="text" name="OS_Prism"></td>
-          <td><input type="text" name="OS_Base"></td>
-          <td><input type="text" name="OS_VA"></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <label for="frame">7. Frame:</label>
-    <input type="text" name="Frame">
-
-    <label for="lens_type">8. Lens Type:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="Lens Type[]" value="Single Vision"> Single Vision</label>
-      <label><input type="checkbox" name="Lens Type[]" value="Bifocal"> Bifocal</label>
-      <label><input type="checkbox" name="Lens Type[]" value="Progressive"> Progressive</label>
-    </div>
-
-    <label for="lens_name">9. Lens Name:</label>
-    <input type="text" name="Lens Name">
-
-    <label for="lens_index">10. Lens Index:</label>
-    <input type="text" name="Lens Index">
-
-    <label for="lens_coating">11. Lens Coating:</label>
-    <input type="text" name="Lens Coating">
-
-    <label>12. Advice For:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="Advice[]" value="Constant Use"> Constant Use</label>
-      <label><input type="checkbox" name="Advice[]" value="Near Use"> Near Use</label>
-      <label><input type="checkbox" name="Advice[]" value="Distance Use"> Distance Use</label>
-      <label><input type="checkbox" name="Advice[]" value="Day"> Day</label>
-      <label><input type="checkbox" name="Advice[]" value="Night"> Night</label>
-    </div>
-
-    <label>13. Confirmation:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="Confirm[]" value="OK with previous prescription"> OK with my previous prescription</label>
-      <label><input type="checkbox" name="Confirm[]" value="Agreed with new power"> Agreed with new power prescribed</label>
-    </div>
-
-    <div class="signature-section">
-      <div>
-        <label>Optometrist Name:</label>
-        <input type="text" name="Optometrist Name">
-        <div class="signature-line">Optometrist Signature</div>
+      <label>5. Visual Acuity:</label>
+      <div class="group">
+        <input type="text" name="Without PGP - R.E" placeholder="Without PGP - R.E" readonly>
+        <input type="text" name="Without PGP - L.E" placeholder="Without PGP - L.E" readonly>
       </div>
-      <div>
-        <label>Customer Name:</label>
-        <input type="text" name="Customer Name">
-        <div class="signature-line">Customer Signature</div>
+      <div class="group">
+        <input type="text" name="With PGP - R.E" placeholder="With PGP - R.E" readonly>
+        <input type="text" name="With PGP - L.E" placeholder="With PGP - L.E" readonly>
       </div>
-    </div>
 
-    <input type="submit" value="Submit Prescription">
+      <label>6. Final RX:</label>
+      <table>
+        <thead>
+          <tr>
+            <th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>ADD</th><th>Prism</th><th>Base</th><th>V/A</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>OD</td>
+            <td><input type="text" name="OD_Sph" readonly></td>
+            <td><input type="text" name="OD_Cyl" readonly></td>
+            <td><input type="text" name="OD_Axis" readonly></td>
+            <td><input type="text" name="OD_ADD" readonly></td>
+            <td><input type="text" name="OD_Prism" readonly></td>
+            <td><input type="text" name="OD_Base" readonly></td>
+            <td><input type="text" name="OD_VA" readonly></td>
+          </tr>
+          <tr>
+            <td>OS</td>
+            <td><input type="text" name="OS_Sph" readonly></td>
+            <td><input type="text" name="OS_Cyl" readonly></td>
+            <td><input type="text" name="OS_Axis" readonly></td>
+            <td><input type="text" name="OS_ADD" readonly></td>
+            <td><input type="text" name="OS_Prism" readonly></td>
+            <td><input type="text" name="OS_Base" readonly></td>
+            <td><input type="text" name="OS_VA" readonly></td>
+          </tr>
+        </tbody>
+      </table>
 
-    <!-- Hidden Formsubmit settings -->
-    <input type="hidden" id="cc-email" name="_cc" value="">
-    <input type="hidden" name="_next" value="https://mhshohag-ice.github.io/thank-you.html">
-    <input type="hidden" name="_captcha" value="false">
-     <!--<input type="hidden" name="_template" value="table">-->
-  </form>
-</main>
+      <label for="frame">7. Frame:</label>
+      <input type="text" name="Frame" readonly>
 
-<footer>
-  &copy; 2025 Opsis Vision Center. All rights reserved.
-</footer>
+      <label for="lens_type">8. Lens Type:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="Lens Type[]" value="Single Vision" disabled> Single Vision</label>
+        <label><input type="checkbox" name="Lens Type[]" value="Bifocal" disabled> Bifocal</label>
+        <label><input type="checkbox" name="Lens Type[]" value="Progressive" disabled> Progressive</label>
+      </div>
 
-<!-- JavaScript to auto-fill _cc field -->
-<!-- At the end of your <body> tag in index.html -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('prescriptionForm');
-    const userEmailInput = document.getElementById('user-email');
-    const ccEmailInput = document.getElementById('cc-email');
+      <label for="lens_name">9. Lens Name:</label>
+      <input type="text" name="Lens Name" readonly>
 
-    form.addEventListener('submit', function (event) {
-      // Set the CC email field
-      ccEmailInput.value = userEmailInput.value;
+      <label for="lens_index">10. Lens Index:</label>
+      <input type="text" name="Lens Index" readonly>
 
-      // --- NEW CODE FOR STORING DATA IN LOCALSTORAGE ---
-      const formData = {};
-      const inputs = form.querySelectorAll('input, textarea, select'); // Get all relevant inputs
+      <label for="lens_coating">11. Lens Coating:</label>
+      <input type="text" name="Lens Coating" readonly>
 
-      inputs.forEach(input => {
-        if (input.name) { // Only process fields with a 'name' attribute
-          if (input.type === 'checkbox') {
-            if (!formData[input.name]) { // Initialize array for checkboxes if not exists
-              formData[input.name] = [];
+      <label>12. Advice For:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="Advice[]" value="Constant Use" disabled> Constant Use</label>
+        <label><input type="checkbox" name="Advice[]" value="Near Use" disabled> Near Use</label>
+        <label><input type="checkbox" name="Advice[]" value="Distance Use" disabled> Distance Use</label>
+        <label><input type="checkbox" name="Advice[]" value="Day" disabled> Day</label>
+        <label><input type="checkbox" name="Advice[]" value="Night" disabled> Night</label>
+      </div>
+
+      <label>13. Confirmation:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="Confirm[]" value="OK with previous prescription" disabled> OK with my previous prescription</label>
+        <label><input type="checkbox" name="Confirm[]" value="Agreed with new power" disabled> Agreed with new power prescribed</label>
+      </div>
+
+      <div class="signature-section">
+        <div>
+          <label>Optometrist Name:</label>
+          <input type="text" name="Optometrist Name" readonly>
+          <div class="signature-line">Optometrist Signature</div>
+        </div>
+        <div>
+          <label>Customer Name:</label>
+          <input type="text" name="Customer Name" readonly>
+          <div class="signature-line">Customer Signature</div>
+        </div>
+      </div>
+
+      <!-- Hide the original submit button in this cloned form -->
+      <input type="submit" value="Submit Prescription" style="display: none;">
+
+      <!-- Hidden Formsubmit settings (also hidden) -->
+      <input type="hidden" name="_cc" value="">
+      <input type="hidden" name="_next" value="">
+      <input type="hidden" name="_captcha" value="">
+    </form>
+  </div>
+
+  <button class="print-button" onclick="window.print()">Print Full Prescription to PDF</button>
+  <a href="index.html" class="button">← Back to Home</a>
+
+  <!-- JavaScript to retrieve and display submission data -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const printFormContainer = document.getElementById('printFormContainer');
+      const displayForm = document.getElementById('displayForm');
+      const storedData = localStorage.getItem('lastPrescriptionSubmission');
+
+      if (storedData) {
+        const formData = JSON.parse(storedData);
+
+        // Iterate through the cloned form's elements and populate them
+        const inputs = displayForm.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+          if (input.name && formData[input.name] !== undefined) {
+            const value = formData[input.name];
+
+            if (input.type === 'checkbox') {
+              // For checkboxes, value is an array if multiple were selected
+              if (Array.isArray(value)) {
+                input.checked = value.includes(input.value);
+              } else { // Single checkbox
+                input.checked = (value === input.value);
+              }
+            } else if (input.type === 'radio') {
+              if (value === input.value) {
+                input.checked = true;
+              }
+            } else {
+              input.value = value;
             }
-            if (input.checked) {
-              formData[input.name].push(input.value);
-            }
-          } else if (input.type === 'radio') {
-            if (input.checked) {
-              formData[input.name] = input.value;
-            }
-          } else {
-            formData[input.name] = input.value;
           }
-        }
-      });
+        });
 
-      // Special handling for hidden fields we don't want to display
-      delete formData['_cc'];
-      delete formData['_next'];
-      delete formData['_captcha'];
-      // If you had a hidden _template field, delete that too
-      // delete formData['_template'];
+        // If you had a header or some initial text for the print form, you can set it here
+        // printFormContainer.querySelector('h2').textContent = 'Submitted Prescription Details';
 
-      // Store the cleaned data in localStorage
-      localStorage.setItem('lastPrescriptionSubmission', JSON.stringify(formData));
-      // --- END NEW CODE ---
+        // Optionally, remove the "Loading..." message if you had one initially in the container
+        // printFormContainer.innerHTML = displayForm.outerHTML; // Or just make displayForm visible
+
+      } else {
+        // If no data found, display a message or hide the print container
+        printFormContainer.innerHTML = '<h2>No Submission Data</h2><p>No submission data found or page refreshed. Please submit the form again to see your details here.</p>';
+      }
+
+      // Clear localStorage after displaying (optional, but good for privacy)
+      localStorage.removeItem('lastPrescriptionSubmission');
     });
-  });
-</script>
+  </script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
