@@ -8,7 +8,7 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f8ff;
-      text-align: center; /* Default for buttons and main message */
+      text-align: center;
       padding: 80px 20px;
       color: #333;
     }
@@ -20,6 +20,10 @@
     p {
       font-size: 1.2em;
       margin-bottom: 40px;
+    }
+    .action-buttons { /* New container for the buttons */
+        margin-top: 40px;
+        text-align: center;
     }
     a.button, button.print-button {
       background-color: #00557f;
@@ -38,91 +42,116 @@
       background-color: #004261;
     }
 
-    #submissionSummary {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      margin: 40px auto;
-      padding: 30px;
-      max-width: 800px;
-      text-align: left; /* Summary content should be left-aligned */
-      line-height: 1.6;
+    /* Styles for the print-friendly form clone - NOW VISIBLE BY DEFAULT */
+    #printFormContainer {
+      /* display: block; is implied if not hidden */
+      max-width: 900px; /* Match your main form width */
+      margin: 40px auto; /* Add margin to separate from other content */
+      background: #fff;
+      padding: 30px; /* Match your main form padding */
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: left; /* Ensure text alignment is good for the form */
     }
-    #submissionSummary h2 {
+
+    #printFormContainer h2 {
       color: #00557f;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
+      margin-bottom: 10px;
+      text-align: center; /* Center the form title */
+    }
+    #printFormContainer label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    #printFormContainer input[type="text"],
+    #printFormContainer input[type="email"],
+    #printFormContainer textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9; /* Make populated fields distinct */
+      color: #333;
+    }
+    #printFormContainer .group {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    #printFormContainer .group input {
+      flex: 1;
+    }
+    #printFormContainer table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
       margin-bottom: 20px;
+    }
+    #printFormContainer th, #printFormContainer td {
+      border: 1px solid #ccc;
+      padding: 6px;
       text-align: center;
     }
-    #submissionSummary p {
-      margin: 5px 0;
-      font-size: 1em;
+    #printFormContainer .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
     }
-    #submissionSummary strong {
-      display: inline-block; /* Helps align key-value pairs */
-      width: 150px; /* Adjust as needed */
-      box-sizing: border-box;
-      vertical-align: top; /* Align with top of value if multiline */
+    #printFormContainer .checkbox-group label {
+      font-weight: normal;
     }
-    #submissionSummary .group-title {
-        font-weight: bold;
-        color: #00557f;
-        margin-top: 20px;
-        margin-bottom: 5px;
-        border-bottom: 1px dashed #ddd;
-        padding-bottom: 5px;
+    #printFormContainer .signature-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
     }
-    #submissionSummary table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-        margin-bottom: 20px;
+    #printFormContainer .signature-line {
+      width: 45%;
+      border-top: 1px solid #000;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 50px;
     }
-    #submissionSummary th, #submissionSummary td {
-        border: 1px solid #ccc;
-        padding: 6px;
-        text-align: center;
-        font-size: 0.9em;
-    }
-    #submissionSummary th {
-        background-color: #f5f5f5;
+    /* Hide submit buttons in the cloned form */
+    #printFormContainer input[type="submit"] {
+        display: none;
     }
 
 
     /* Styles specifically for printing */
     @media print {
       body {
-        background-color: #fff; /* White background for print */
-        padding: 0; /* Remove padding */
-        text-align: left; /* Left align for print readability */
-      }
-      h1, p {
-        display: none; /* Hide the main thank you message and paragraph */
-      }
-      a.button, button.print-button {
-        display: none; /* Hide buttons when printing */
-      }
-      #submissionSummary {
-        margin: 0; /* No margin for summary */
-        box-shadow: none; /* No shadow for print */
-        border: none; /* No border for print */
+        background-color: #fff;
         padding: 0;
-        max-width: 100%;
         text-align: left;
       }
-      #submissionSummary h2 {
-          text-align: center;
-          border-bottom: none;
-          padding-bottom: 0;
-          margin-bottom: 10px;
-          font-size: 1.5em;
+      /* Hide the main thank you message and buttons when printing */
+      h1, p, .action-buttons { /* Use the new class for buttons */
+        display: none;
       }
-      /* Adjust table for print */
-      #submissionSummary table {
+      /* Ensure the printFormContainer is always block when printing */
+      #printFormContainer {
+        display: block; /* Already block, but good to be explicit for print */
+        box-shadow: none;
+        border: none;
+        padding: 10px;
+        margin: 0;
+        max-width: 100%;
+      }
+      /* Further print specific adjustments for inputs/textareas */
+      #printFormContainer input[type="text"],
+      #printFormContainer input[type="email"],
+      #printFormContainer textarea {
+          border: 1px dashed #999;
+          background-color: transparent;
+          padding: 3px;
+      }
+      #printFormContainer table {
           page-break-inside: auto;
       }
-      #submissionSummary tr {
+      #printFormContainer tr {
           page-break-inside: avoid;
           page-break-after: auto;
       }
@@ -131,109 +160,175 @@
 </head>
 <body>
 
-  <h1>Thank You!</h1>
-  <p>Your prescription form has been submitted successfully.</p>
-
-  <div id="submissionSummary">
-    <h2>Submitted Prescription Details</h2>
-    <!-- Summary will be populated here by JavaScript -->
-    <p>Loading submission details...</p>
+  <div class="main-thank-you-section"> <!-- New div to group the intro message and buttons -->
+      <h1>Thank You!</h1>
+      <p>Your prescription form has been submitted successfully.</p>
   </div>
 
-  <button class="print-button" onclick="window.print()">Print This Summary to PDF</button>
-  <a href="index.html" class="button">← Back to Home</a>
+  <div id="printFormContainer">
+    <h2>Spectacles Prescription Form (Submitted Details)</h2>
+
+    <!-- This is a *duplicate* of your form's HTML from index.html -->
+    <!-- We'll populate this with JS -->
+    <form id="displayForm">
+      <!-- NOTE: Remove 'action' and 'method' attributes from this display form -->
+      <!-- Remove 'required' attributes as well, not needed for display -->
+
+      <label for="name">1. Name:</label>
+      <input type="text" name="Name" readonly> <!-- 'readonly' prevents user from editing -->
+
+      <label for="email">2. Your Email:</label>
+      <input type="email" name="email" readonly>
+
+      <label for="complaint">3. Chief Complaint:</label>
+      <textarea name="Chief Complaint" rows="3" readonly></textarea>
+
+      <label for="history">4. History:</label>
+      <textarea name="History" rows="3" readonly></textarea>
+
+      <label>5. Visual Acuity:</label>
+      <div class="group">
+        <input type="text" name="Without PGP - R.E" placeholder="Without PGP - R.E" readonly>
+        <input type="text" name="Without PGP - L.E" placeholder="Without PGP - L.E" readonly>
+      </div>
+      <div class="group">
+        <input type="text" name="With PGP - R.E" placeholder="With PGP - R.E" readonly>
+        <input type="text" name="With PGP - L.E" placeholder="With PGP - L.E" readonly>
+      </div>
+
+      <label>6. Final RX:</label>
+      <table>
+        <thead>
+          <tr>
+            <th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>ADD</th><th>Prism</th><th>Base</th><th>V/A</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>OD</td>
+            <td><input type="text" name="OD_Sph" readonly></td>
+            <td><input type="text" name="OD_Cyl" readonly></td>
+            <td><input type="text" name="OD_Axis" readonly></td>
+            <td><input type="text" name="OD_ADD" readonly></td>
+            <td><input type="text" name="OD_Prism" readonly></td>
+            <td><input type="text" name="OD_Base" readonly></td>
+            <td><input type="text" name="OD_VA" readonly></td>
+          </tr>
+          <tr>
+            <td>OS</td>
+            <td><input type="text" name="OS_Sph" readonly></td>
+            <td><input type="text" name="OS_Cyl" readonly></td>
+            <td><input type="text" name="OS_Axis" readonly></td>
+            <td><input type="text" name="OS_ADD" readonly></td>
+            <td><input type="text" name="OS_Prism" readonly></td>
+            <td><input type="text" name="OS_Base" readonly></td>
+            <td><input type="text" name="OS_VA" readonly></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <label for="frame">7. Frame:</label>
+      <input type="text" name="Frame" readonly>
+
+      <label for="lens_type">8. Lens Type:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="Lens Type[]" value="Single Vision" disabled> Single Vision</label>
+        <label><input type="checkbox" name="Lens Type[]" value="Bifocal" disabled> Bifocal</label>
+        <label><input type="checkbox" name="Lens Type[]" value="Progressive" disabled> Progressive</label>
+      </div>
+
+      <label for="lens_name">9. Lens Name:</label>
+      <input type="text" name="Lens Name" readonly>
+
+      <label for="lens_index">10. Lens Index:</label>
+      <input type="text" name="Lens Index" readonly>
+
+      <label for="lens_coating">11. Lens Coating:</label>
+      <input type="text" name="Lens Coating" readonly>
+
+      <label>12. Advice For:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="Advice[]" value="Constant Use" disabled> Constant Use</label>
+        <label><input type="checkbox" name="Advice[]" value="Near Use" disabled> Near Use</label>
+        <label><input type="checkbox" name="Advice[]" value="Distance Use" disabled> Distance Use</label>
+        <label><input type="checkbox" name="Advice[]" value="Day" disabled> Day</label>
+        <label><input type="checkbox" name="Advice[]" value="Night" disabled> Night</label>
+      </div>
+
+      <label>13. Confirmation:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="Confirm[]" value="OK with previous prescription" disabled> OK with my previous prescription</label>
+        <label><input type="checkbox" name="Confirm[]" value="Agreed with new power" disabled> Agreed with new power prescribed</label>
+      </div>
+
+      <div class="signature-section">
+        <div>
+          <label>Optometrist Name:</label>
+          <input type="text" name="Optometrist Name" readonly>
+          <div class="signature-line">Optometrist Signature</div>
+        </div>
+        <div>
+          <label>Customer Name:</label>
+          <input type="text" name="Customer Name" readonly>
+          <div class="signature-line">Customer Signature</div>
+        </div>
+      </div>
+
+      <!-- Hide the original submit button in this cloned form -->
+      <input type="submit" value="Submit Prescription" style="display: none;">
+
+      <!-- Hidden Formsubmit settings (also hidden) -->
+      <input type="hidden" name="_cc" value="">
+      <input type="hidden" name="_next" value="">
+      <input type="hidden" name="_captcha" value="">
+    </form>
+  </div>
+
+  <div class="action-buttons"> <!-- Buttons are now in this container -->
+      <button class="print-button" onclick="window.print()">Print Full Prescription to PDF</button>
+      <a href="index.html" class="button">← Back to Home</a>
+  </div>
 
   <!-- JavaScript to retrieve and display submission data -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const summaryDiv = document.getElementById('submissionSummary');
+      const printFormContainer = document.getElementById('printFormContainer');
+      const displayForm = document.getElementById('displayForm');
       const storedData = localStorage.getItem('lastPrescriptionSubmission');
 
       if (storedData) {
         const formData = JSON.parse(storedData);
-        summaryDiv.innerHTML = '<h2>Submitted Prescription Details</h2>'; // Clear loading message
 
-        // Function to create a paragraph for a field
-        const addField = (label, value) => {
-            if (value && value !== "" && !(Array.isArray(value) && value.length === 0)) {
-                let displayValue = Array.isArray(value) ? value.join(', ') : value;
-                summaryDiv.innerHTML += `<p><strong>${label}:</strong> ${displayValue}</p>`;
+        // Iterate through the cloned form's elements and populate them
+        const inputs = displayForm.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+          if (input.name && formData[input.name] !== undefined) {
+            const value = formData[input.name];
+
+            if (input.type === 'checkbox') {
+              // For checkboxes, value is an array if multiple were selected
+              if (Array.isArray(value)) {
+                input.checked = value.includes(input.value);
+              } else { // Single checkbox
+                input.checked = (value === input.value);
+              }
+            } else if (input.type === 'radio') {
+              if (value === input.value) {
+                input.checked = true;
+              }
+            } else {
+              input.value = value;
             }
-        };
-
-        // --- Display fields in a structured way ---
-        // Basic Information
-        summaryDiv.innerHTML += '<p class="group-title">Patient Information</p>';
-        addField('Name', formData['Name']);
-        addField('Email', formData['email']);
-        addField('Chief Complaint', formData['Chief Complaint']);
-        addField('History', formData['History']);
-
-        // Visual Acuity
-        summaryDiv.innerHTML += '<p class="group-title">Visual Acuity</p>';
-        addField('Without PGP - R.E', formData['Without PGP - R.E']);
-        addField('Without PGP - L.E', formData['Without PGP - L.E']);
-        addField('With PGP - R.E', formData['With PGP - R.E']);
-        addField('With PGP - L.E', formData['With PGP - L.E']);
-
-        // Final RX Table (more complex)
-        summaryDiv.innerHTML += '<p class="group-title">Final RX</p>';
-        let tableHtml = `
-            <table>
-                <thead>
-                    <tr>
-                        <th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>ADD</th><th>Prism</th><th>Base</th><th>V/A</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>OD</td>
-                        <td>${formData['OD_Sph'] || ''}</td>
-                        <td>${formData['OD_Cyl'] || ''}</td>
-                        <td>${formData['OD_Axis'] || ''}</td>
-                        <td>${formData['OD_ADD'] || ''}</td>
-                        <td>${formData['OD_Prism'] || ''}</td>
-                        <td>${formData['OD_Base'] || ''}</td>
-                        <td>${formData['OD_VA'] || ''}</td>
-                    </tr>
-                    <tr>
-                        <td>OS</td>
-                        <td>${formData['OS_Sph'] || ''}</td>
-                        <td>${formData['OS_Cyl'] || ''}</td>
-                        <td>${formData['OS_Axis'] || ''}</td>
-                        <td>${formData['OS_ADD'] || ''}</td>
-                        <td>${formData['OS_Prism'] || ''}</td>
-                        <td>${formData['OS_Base'] || ''}</td>
-                        <td>${formData['OS_VA'] || ''}</td>
-                    </tr>
-                </tbody>
-            </table>
-        `;
-        summaryDiv.innerHTML += tableHtml;
-
-
-        // Other Details
-        summaryDiv.innerHTML += '<p class="group-title">Lens Details</p>';
-        addField('Frame', formData['Frame']);
-        addField('Lens Type', formData['Lens Type[]']); // Note: Checkbox name will be 'Lens Type[]'
-        addField('Lens Name', formData['Lens Name']);
-        addField('Lens Index', formData['Lens Index']);
-        addField('Lens Coating', formData['Lens Coating']);
-
-        summaryDiv.innerHTML += '<p class="group-title">Advice & Confirmation</p>';
-        addField('Advice For', formData['Advice[]']); // Note: Checkbox name will be 'Advice[]'
-        addField('Confirmation', formData['Confirm[]']); // Note: Checkbox name will be 'Confirm[]'
-
-        summaryDiv.innerHTML += '<p class="group-title">Signatures</p>';
-        addField('Optometrist Name', formData['Optometrist Name']);
-        addField('Customer Name', formData['Customer Name']);
-
-        // Clear localStorage after displaying (optional, but good for privacy)
-        localStorage.removeItem('lastPrescriptionSubmission');
+          }
+        });
 
       } else {
-        summaryDiv.innerHTML = '<h2>Submitted Prescription Details</h2><p>No submission data found or page refreshed. Please submit the form again.</p>';
+        // If no data found, display a message within the container
+        printFormContainer.innerHTML = '<h2>No Submission Data</h2><p>No submission data found or page refreshed. Please submit the form again to see your details here.</p>';
       }
+
+      // Clear localStorage after displaying (optional, but good for privacy)
+      localStorage.removeItem('lastPrescriptionSubmission');
     });
   </script>
 
