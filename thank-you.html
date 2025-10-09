@@ -8,7 +8,7 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f8ff;
-      text-align: center;
+      text-align: center; /* Default for buttons and main message */
       padding: 80px 20px;
       color: #333;
     }
@@ -21,7 +21,7 @@
       font-size: 1.2em;
       margin-bottom: 40px;
     }
-    a.button {
+    a.button, button.print-button {
       background-color: #00557f;
       color: white;
       padding: 12px 24px;
@@ -29,9 +29,103 @@
       border-radius: 5px;
       font-size: 16px;
       transition: background 0.3s ease;
+      cursor: pointer;
+      border: none;
+      margin: 10px;
+      display: inline-block;
     }
-    a.button:hover {
+    a.button:hover, button.print-button:hover {
       background-color: #004261;
+    }
+
+    #submissionSummary {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin: 40px auto;
+      padding: 30px;
+      max-width: 800px;
+      text-align: left; /* Summary content should be left-aligned */
+      line-height: 1.6;
+    }
+    #submissionSummary h2 {
+      color: #00557f;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    #submissionSummary p {
+      margin: 5px 0;
+      font-size: 1em;
+    }
+    #submissionSummary strong {
+      display: inline-block; /* Helps align key-value pairs */
+      width: 150px; /* Adjust as needed */
+      box-sizing: border-box;
+      vertical-align: top; /* Align with top of value if multiline */
+    }
+    #submissionSummary .group-title {
+        font-weight: bold;
+        color: #00557f;
+        margin-top: 20px;
+        margin-bottom: 5px;
+        border-bottom: 1px dashed #ddd;
+        padding-bottom: 5px;
+    }
+    #submissionSummary table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    #submissionSummary th, #submissionSummary td {
+        border: 1px solid #ccc;
+        padding: 6px;
+        text-align: center;
+        font-size: 0.9em;
+    }
+    #submissionSummary th {
+        background-color: #f5f5f5;
+    }
+
+
+    /* Styles specifically for printing */
+    @media print {
+      body {
+        background-color: #fff; /* White background for print */
+        padding: 0; /* Remove padding */
+        text-align: left; /* Left align for print readability */
+      }
+      h1, p {
+        display: none; /* Hide the main thank you message and paragraph */
+      }
+      a.button, button.print-button {
+        display: none; /* Hide buttons when printing */
+      }
+      #submissionSummary {
+        margin: 0; /* No margin for summary */
+        box-shadow: none; /* No shadow for print */
+        border: none; /* No border for print */
+        padding: 0;
+        max-width: 100%;
+        text-align: left;
+      }
+      #submissionSummary h2 {
+          text-align: center;
+          border-bottom: none;
+          padding-bottom: 0;
+          margin-bottom: 10px;
+          font-size: 1.5em;
+      }
+      /* Adjust table for print */
+      #submissionSummary table {
+          page-break-inside: auto;
+      }
+      #submissionSummary tr {
+          page-break-inside: avoid;
+          page-break-after: auto;
+      }
     }
   </style>
 </head>
@@ -39,9 +133,109 @@
 
   <h1>Thank You!</h1>
   <p>Your prescription form has been submitted successfully.</p>
+
+  <div id="submissionSummary">
+    <h2>Submitted Prescription Details</h2>
+    <!-- Summary will be populated here by JavaScript -->
+    <p>Loading submission details...</p>
+  </div>
+
+  <button class="print-button" onclick="window.print()">Print This Summary to PDF</button>
   <a href="index.html" class="button">← Back to Home</a>
+
+  <!-- JavaScript to retrieve and display submission data -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const summaryDiv = document.getElementById('submissionSummary');
+      const storedData = localStorage.getItem('lastPrescriptionSubmission');
+
+      if (storedData) {
+        const formData = JSON.parse(storedData);
+        summaryDiv.innerHTML = '<h2>Submitted Prescription Details</h2>'; // Clear loading message
+
+        // Function to create a paragraph for a field
+        const addField = (label, value) => {
+            if (value && value !== "" && !(Array.isArray(value) && value.length === 0)) {
+                let displayValue = Array.isArray(value) ? value.join(', ') : value;
+                summaryDiv.innerHTML += `<p><strong>${label}:</strong> ${displayValue}</p>`;
+            }
+        };
+
+        // --- Display fields in a structured way ---
+        // Basic Information
+        summaryDiv.innerHTML += '<p class="group-title">Patient Information</p>';
+        addField('Name', formData['Name']);
+        addField('Email', formData['email']);
+        addField('Chief Complaint', formData['Chief Complaint']);
+        addField('History', formData['History']);
+
+        // Visual Acuity
+        summaryDiv.innerHTML += '<p class="group-title">Visual Acuity</p>';
+        addField('Without PGP - R.E', formData['Without PGP - R.E']);
+        addField('Without PGP - L.E', formData['Without PGP - L.E']);
+        addField('With PGP - R.E', formData['With PGP - R.E']);
+        addField('With PGP - L.E', formData['With PGP - L.E']);
+
+        // Final RX Table (more complex)
+        summaryDiv.innerHTML += '<p class="group-title">Final RX</p>';
+        let tableHtml = `
+            <table>
+                <thead>
+                    <tr>
+                        <th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>ADD</th><th>Prism</th><th>Base</th><th>V/A</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>OD</td>
+                        <td>${formData['OD_Sph'] || ''}</td>
+                        <td>${formData['OD_Cyl'] || ''}</td>
+                        <td>${formData['OD_Axis'] || ''}</td>
+                        <td>${formData['OD_ADD'] || ''}</td>
+                        <td>${formData['OD_Prism'] || ''}</td>
+                        <td>${formData['OD_Base'] || ''}</td>
+                        <td>${formData['OD_VA'] || ''}</td>
+                    </tr>
+                    <tr>
+                        <td>OS</td>
+                        <td>${formData['OS_Sph'] || ''}</td>
+                        <td>${formData['OS_Cyl'] || ''}</td>
+                        <td>${formData['OS_Axis'] || ''}</td>
+                        <td>${formData['OS_ADD'] || ''}</td>
+                        <td>${formData['OS_Prism'] || ''}</td>
+                        <td>${formData['OS_Base'] || ''}</td>
+                        <td>${formData['OS_VA'] || ''}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+        summaryDiv.innerHTML += tableHtml;
+
+
+        // Other Details
+        summaryDiv.innerHTML += '<p class="group-title">Lens Details</p>';
+        addField('Frame', formData['Frame']);
+        addField('Lens Type', formData['Lens Type[]']); // Note: Checkbox name will be 'Lens Type[]'
+        addField('Lens Name', formData['Lens Name']);
+        addField('Lens Index', formData['Lens Index']);
+        addField('Lens Coating', formData['Lens Coating']);
+
+        summaryDiv.innerHTML += '<p class="group-title">Advice & Confirmation</p>';
+        addField('Advice For', formData['Advice[]']); // Note: Checkbox name will be 'Advice[]'
+        addField('Confirmation', formData['Confirm[]']); // Note: Checkbox name will be 'Confirm[]'
+
+        summaryDiv.innerHTML += '<p class="group-title">Signatures</p>';
+        addField('Optometrist Name', formData['Optometrist Name']);
+        addField('Customer Name', formData['Customer Name']);
+
+        // Clear localStorage after displaying (optional, but good for privacy)
+        localStorage.removeItem('lastPrescriptionSubmission');
+
+      } else {
+        summaryDiv.innerHTML = '<h2>Submitted Prescription Details</h2><p>No submission data found or page refreshed. Please submit the form again.</p>';
+      }
+    });
+  </script>
 
 </body>
 </html>
-
-
