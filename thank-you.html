@@ -62,7 +62,7 @@
         width: 100%;
         border-collapse: collapse;
         margin-top: 10px;
-        margin-bottom: 20px; /* Add some space below the table */
+        margin-bottom: 20px;
     }
     .submitted-data th, .submitted-data td {
         border: 1px solid #ddd;
@@ -122,6 +122,11 @@
       <h3>Prescription</h3>
     </div>
 
+    <div class="message">
+      <p><strong>Thank you!</strong> Your prescription has been successfully submitted.</p>
+      <p>You can print this page for your records.</p>
+    </div>
+
     <div class="submitted-data" id="submittedData">
       <p>Loading prescription data...</p>
     </div>
@@ -138,39 +143,134 @@
         const formData = JSON.parse(storedData);
         let htmlContent = '';
 
-        // Function to create a clean label from the form field name
+        // Helper to format keys into readable labels
         function formatLabel(key) {
-          return key.replace(/_/g, ' ').replace(/\[\]/g, '').trim() + ':';
+          // Remove potential array brackets and format underscores/dashes
+          let formatted = key.replace(/\[\]/g, '').replace(/_/g, ' ').replace(/-/g, ' ').trim();
+          // Capitalize the first letter of each word
+          formatted = formatted.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+          // Handle specific numbering or structure if needed
+          if (formatted.match(/^\d+\./)) { // If it starts with a number and a dot (like "1. Name")
+              return formatted;
+          }
+          return formatted + ':';
         }
 
-        for (const key in formData) {
-          if (formData.hasOwnProperty(key)) {
-            const value = formData[key];
+        // Define a desired order of fields for display
+        const displayOrder = [
+            'Name', 'email', 'Chief Complaint', 'History',
+            'Without_PGP_RE', 'Without_PGP_LE', 'With_PGP_RE', 'With_PGP_LE',
+            'OD_Sph', 'OD_Cyl', 'OD_Axis', 'OD_VA',
+            'OS_Sph', 'OS_Cyl', 'OS_Axis', 'OS_VA',
+            'Frame', 'Lens Type[]', 'Lens Name', 'Lens Index', 'Lens Coating',
+            'Advice[]', 'Confirm[]', 'Optometrist Name', 'Customer Name'
+        ];
 
-            if (key.startsWith('OD_') || key.startsWith('OS_')) {
-                // Handle the table data specially
-                // This assumes OD and OS data will come sequentially
-                // A more robust solution might group them first.
-            } else if (Array.isArray(value) && value.length > 0) {
-              htmlContent += `<p><strong>${formatLabel(key)}</strong> ${value.join(', ')}</p>`;
-            } else if (value !== '' && typeof value === 'string') {
-              htmlContent += `<p><strong>${formatLabel(key)}</strong> ${value}</p>`;
+        // Create a temporary object to hold data in display order
+        const orderedFormData = {};
+        displayOrder.forEach(key => {
+            if (formData.hasOwnProperty(key)) {
+                orderedFormData[key] = formData[key];
             }
+        });
+        // Add any other keys that might not be in displayOrder (e.g., unexpected fields)
+        for (const key in formData) {
+            if (formData.hasOwnProperty(key) && !displayOrder.includes(key)) {
+                orderedFormData[key] = formData[key];
+            }
+        }
+
+
+        // Loop through the ordered data and generate HTML
+        let visualAcuitySectionStarted = false;
+        let finalRxTableGenerated = false;
+
+        for (const key in orderedFormData) {
+          if (orderedFormData.hasOwnProperty(key)) {
+            const value = orderedFormData[key];
+            let displayValue = '';
+            let displayLabel = formatLabel(key);
+
+            // Handle numbered labels directly
+            if (key === 'Name') displayLabel = '1. Name:';
+            else if (key === 'email') displayLabel = '2. Your Email:';
+            else if (key === 'Chief Complaint') displayLabel = '3. Chief Complaint:';
+            else if (key === 'History') displayLabel = '4. History:';
+            else if (key === 'Frame') displayLabel = '7. Frame:';
+            else if (key === 'Lens Type[]') displayLabel = '8. Lens Type:';
+            else if (key === 'Lens Name') displayLabel = '9. Lens Name:';
+            else if (key === 'Lens Index') displayLabel = '10. Lens Index:';
+            else if (key === 'Lens Coating') displayLabel = '11. Lens Coating:';
+            else if (key === 'Advice[]') displayLabel = '12. Advice For:';
+            else if (key === 'Confirm[]') displayLabel = '13. Confirmation:';
+
+            // --- Special handling for Visual Acuity group (5.) ---
+            const visualAcuityKeys = ['Without_PGP_RE', 'Without_PGP_LE', 'With_PGP_RE', 'With_PGP_LE'];
+            if (visualAcuityKeys.includes(key)) {
+                if (!visualAcuitySectionStarted) {
+                    htmlContent += `<p><strong>5. Visual Acuity:</strong></p>`;
+                    visualAcuitySectionStarted = true;
+                }
+                const subLabel = key.replace(/_/g, ' ').trim() + ':';
+                if (typeof value === 'string' && value.trim() !== '') {
+                    htmlContent += `<p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>${subLabel}</strong> ${value}</p>`;
+                }
+                continue; // Skip further processing for visual acuity keys
+            }
+
+            // --- Special handling for Final RX table (6.) ---
+            const rxTableKeys = ['OD_Sph', 'OD_Cyl', 'OD_Axis', 'OD_VA', 'OS_Sph', 'OS_Cyl', 'OS_Axis', 'OS_VA'];
+            if (rxTableKeys.includes(key) && !finalRxTableGenerated) {
+                // Check if any RX data exists to decide if we should render the table header
+                const hasRxData = rxTableKeys.some(rxKey => orderedFormData[rxKey] && orderedFormData[rxKey].trim() !== '');
+
+                if (hasRxData) {
+                    htmlContent += `
+                        <p><strong>6. Final RX:</strong></p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>V/A</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>OD</td>
+                                    <td>${orderedFormData['OD_Sph'] || ''}</td>
+                                    <td>${orderedFormData['OD_Cyl'] || ''}</td>
+                                    <td>${orderedFormData['OD_Axis'] || ''}</td>
+                                    <td>${orderedFormData['OD_VA'] || ''}</td>
+                                </tr>
+                                <tr>
+                                    <td>OS</td>
+                                    <td>${orderedFormData['OS_Sph'] || ''}</td>
+                                    <td>${orderedFormData['OS_Cyl'] || ''}</td>
+                                    <td>${orderedFormData['OS_Axis'] || ''}</td>
+                                    <td>${orderedFormData['OS_VA'] || ''}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                }
+                finalRxTableGenerated = true; // Ensure the table is only generated once
+                continue; // Skip further processing for RX table keys
+            }
+
+            // --- General field display ---
+            if (Array.isArray(value) && value.length > 0) {
+              displayValue = value.join(', ');
+            } else if (typeof value === 'string' && value.trim() !== '') {
+              displayValue = value;
+            } else {
+              // Skip empty strings or empty arrays for general fields
+              continue;
+            }
+
+            htmlContent += `<p><strong>${displayLabel}</strong> ${displayValue}</p>`;
           }
         }
 
-        // Reconstruct the table data
-        htmlContent += `<label><strong>6. Final RX:</strong></label>`;
-        htmlContent += `<table><thead><tr><th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>V/A</th></tr></thead><tbody>`;
-        htmlContent += `<tr><td>OD</td><td>${formData['OD_Sph'] || ''}</td><td>${formData['OD_Cyl'] || ''}</td><td>${formData['OD_Axis'] || ''}</td><td>${formData['OD_VA'] || ''}</td></tr>`;
-        htmlContent += `<tr><td>OS</td><td>${formData['OS_Sph'] || ''}</td><td>${formData['OS_Cyl'] || ''}</td><td>${formData['OS_Axis'] || ''}</td><td>${formData['OS_VA'] || ''}</td></tr>`;
-        htmlContent += `</tbody></table>`;
-
-
         submittedDataElement.innerHTML = htmlContent;
-
-        // Optionally, trigger print automatically
-        // window.print();
 
       } else {
         submittedDataElement.innerHTML = '<p>No previous prescription data found. Please submit the form first.</p>';
