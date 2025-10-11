@@ -256,12 +256,55 @@
     </form>
   </div>
 
-  <script>
-    document.getElementById('prescriptionForm').addEventListener('submit', function() {
-      const customerEmail = document.getElementById('user-email').value;
-      document.getElementById('cc-email-field').value = customerEmail;
+  <!-- JavaScript to auto-fill _cc field and store form data in localStorage -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('prescriptionForm');
+    const userEmailInput = document.getElementById('user-email');
+    const ccEmailInput = document.getElementById('cc-email'); // Assuming an ID for _cc field
+
+    form.addEventListener('submit', function (event) {
+      // Set the CC email field
+      ccEmailInput.value = userEmailInput.value;
+
+      // --- NEW CODE FOR STORING DATA IN LOCALSTORAGE ---
+      const formData = {};
+      const inputs = form.querySelectorAll('input, textarea, select'); // Get all relevant inputs
+
+      inputs.forEach(input => {
+        if (input.name) { // Only process fields with a 'name' attribute
+          if (input.type === 'checkbox') {
+            if (!formData[input.name]) { // Initialize array for checkboxes if not exists
+              formData[input.name] = [];
+            }
+            if (input.checked) {
+              formData[input.name].push(input.value);
+            }
+          } else if (input.type === 'radio') {
+            if (input.checked) {
+              formData[input.name] = input.value;
+            }
+          } else {
+            formData[input.name] = input.value;
+          }
+        }
+      });
+
+      // Special handling for hidden fields we don't want to display on thank-you page
+      // It's good to remove these as they are Formsubmit's configuration, not user input
+      delete formData['_cc'];
+      delete formData['_next'];
+      delete formData['_captcha'];
+      // If you had a hidden _template field, delete that too:
+      // delete formData['_template'];
+
+      // Store the cleaned data in localStorage as a JSON string
+      localStorage.setItem('lastPrescriptionSubmission', JSON.stringify(formData));
+      // --- END NEW CODE ---
     });
-  </script>
+  });
+</script>
 
 </body>
 </html>
+
