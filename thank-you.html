@@ -9,6 +9,8 @@
   .container {max-width: 750px; margin:auto; background:#fff; padding:30px 40px; border:1px solid #ccc; border-radius:10px;}
   .logo {display:flex; justify-content:center; margin-bottom:-30px;}
   .logo img {width:120px; height:auto;}
+  .header_text{text-align: center}
+  .header_text p{font-size: 10px}
   h2{text-align:center; color:#333; margin:5px 0;}
   label {font-weight:bold; display:block; margin-top:15px;}
   .group {display:flex; flex-wrap:wrap; gap:10px; margin-top:5px;}
@@ -36,9 +38,12 @@
   <div class="logo">
     <img src="logo.png" alt="Opsis Vision Center Logo">
   </div>
-  <h2>Opsis Vision Center</h2>
+  <div class="header_text">
+    <h2>Opsis Vision Center</h2>
   <p>Concord Sohel Square, G-A, 75 Satmasjid Road, Dhanmondi, Dhaka-1209</p>
  <h3>Prescription Form</h3>
+  </div>
+  
  
   <div id="formDataDisplay">
     <!-- Form data will be injected here -->
@@ -133,4 +138,3 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 </body>
 </html>
-
