@@ -1,170 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prescription Submitted - Opsis Vision Center</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      margin: 0;
-      padding: 20px 0;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border: 1px solid #000;
-      border-radius: 6px;
-    }
-
-    .print-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .print-header .logo {
-      width: 120px;
-      margin-bottom: -20px;
-    }
-
-    .print-header h2 {
-      margin: 5px 0;
-      color: #00557f;
-    }
-
-    .print-header h3 {
-      margin: 0;
-      font-size: 18px;
-      color: #333;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-
-    table, th, td {
-      border: 1px solid #000;
-    }
-
-    th, td {
-      padding: 8px;
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
-      background: #f0f0f0;
-    }
-
-    button {
-      display: block;
-      margin: 20px auto 0;
-      padding: 10px 25px;
-      font-size: 16px;
-      background: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #0056b3;
-    }
-
-    @media print {
-      button {
-        display: none;
-      }
-      body {
-        margin: 0;
-        padding: 0;
-      }
-      .container {
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-        width: 100%;
-        max-width: 100%;
-        padding: 0;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prescription Submitted - Opsis Vision Center</title>
+<style>
+  body {font-family: Arial, sans-serif; background: #f5f7fa; margin:0; padding: 20px;}
+  .container {max-width: 750px; margin: auto; background: #fff; padding: 30px 40px; border: 1px solid #ccc; border-radius:10px;}
+  .logo {display: flex; justify-content: center; margin-bottom: -30px;}
+  .logo img {width: 120px; height: auto;}
+  h2, h3 {text-align: center; color:#333; margin: 5px 0;}
+  .section {margin-top:20px;}
+  label {font-weight: bold; display: block; margin-top:15px;}
+  .group {display: flex; flex-wrap: wrap; gap: 10px; margin-top:5px;}
+  .group label {width:150px; font-weight: normal;}
+  .group input {flex:1; padding:5px; border:1px solid #bbb; border-radius:6px;}
+  textarea {width:100%; padding:8px; border:1px solid #bbb; border-radius:6px; resize: vertical;}
+  table {width:100%; border-collapse: collapse; margin-top:10px;}
+  th, td {border:1px solid #ddd; text-align:center; padding:6px;}
+  th {background:#f0f0f0;}
+  .checkbox-group label {display:inline-block; margin-right:15px; font-weight: normal;}
+  .signature-section {display:flex; justify-content:space-between; margin-top:30px; gap:20px;}
+  .signature-section div {width:48%;}
+  .signature-line {border-top:1px solid #000; margin-top:30px; text-align:center; font-style:italic;}
+  button {display:block; margin:30px auto 0; padding:10px 20px; font-size:16px; background:#007bff; color:#fff; border:none; border-radius:6px; cursor:pointer;}
+  button:hover {background:#0056b3;}
+  input.blank {border:1px solid #000; background:#fff;}
+  @media print {
+    button {display:none;}
+    body {margin:0; padding:0;}
+    .container {border:none; box-shadow:none; border-radius:0; width:100%; max-width:100%; padding:0;}
+  }
+</style>
 </head>
 <body>
-
 <div class="container">
-  <div class="print-header">
-    <img src="logo.png" alt="Opsis Vision Center Logo" class="logo">
-    <h2>OPSIS VISION CENTER</h2>
-    <h3>Prescription</h3>
-  </div>
+  <div class="logo"><img src="logo.png" alt="Opsis Vision Center Logo"></div>
+  <h2>Opsis Vision Center - Prescription Form</h2>
+  <h3>Submitted Prescription</h3>
 
-  <table id="prescriptionTable">
-    <tbody>
-      <tr><td colspan="2" style="text-align:center;"><strong>Thank you! Your prescription has been submitted.</strong></td></tr>
-    </tbody>
-  </table>
+  <form id="printForm">
+    <div class="section">
+      <label>1. Name:</label>
+      <input type="text" class="blank" id="Name">
+      <label>2. Your Email:</label>
+      <input type="text" class="blank" id="email">
+      <label>3. Chief Complaint:</label>
+      <textarea id="Chief_Complaint" rows="3"></textarea>
+      <label>4. History:</label>
+      <textarea id="History" rows="3"></textarea>
+    </div>
+
+    <div class="section">
+      <label>5. Visual Acuity:</label>
+      <div class="group">
+        <label>Without PGP - R.E:</label>
+        <input type="text" class="blank" id="Without_PGP_RE">
+        <label>Without PGP - L.E:</label>
+        <input type="text" class="blank" id="Without_PGP_LE">
+      </div>
+      <div class="group">
+        <label>With PGP - R.E:</label>
+        <input type="text" class="blank" id="With_PGP_RE">
+        <label>With PGP - L.E:</label>
+        <input type="text" class="blank" id="With_PGP_LE">
+      </div>
+    </div>
+
+    <div class="section">
+      <label>6. Final RX:</label>
+      <table>
+        <thead>
+          <tr><th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>V/A</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>OD</td>
+            <td><input type="text" class="blank" id="OD_Sph"></td>
+            <td><input type="text" class="blank" id="OD_Cyl"></td>
+            <td><input type="text" class="blank" id="OD_Axis"></td>
+            <td><input type="text" class="blank" id="OD_VA"></td>
+          </tr>
+          <tr>
+            <td>OS</td>
+            <td><input type="text" class="blank" id="OS_Sph"></td>
+            <td><input type="text" class="blank" id="OS_Cyl"></td>
+            <td><input type="text" class="blank" id="OS_Axis"></td>
+            <td><input type="text" class="blank" id="OS_VA"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <label>7. Frame:</label>
+      <input type="text" class="blank" id="Frame">
+      <label>8. Lens Type:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="Single_Vision"> Single Vision</label>
+        <label><input type="checkbox" id="Bifocal"> Bifocal</label>
+        <label><input type="checkbox" id="Progressive"> Progressive</label>
+      </div>
+      <label>9. Lens Name:</label>
+      <input type="text" class="blank" id="Lens_Name">
+      <label>10. Lens Index:</label>
+      <input type="text" class="blank" id="Lens_Index">
+      <label>11. Lens Coating:</label>
+      <input type="text" class="blank" id="Lens_Coating">
+      <label>12. Advice For:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="Constant_Use"> Constant Use</label>
+        <label><input type="checkbox" id="Near_Use"> Near Use</label>
+        <label><input type="checkbox" id="Distance_Use"> Distance Use</label>
+        <label><input type="checkbox" id="Day"> Day</label>
+        <label><input type="checkbox" id="Night"> Night</label>
+      </div>
+      <label>13. Confirmation:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="OK_Previous"> OK with previous prescription</label>
+        <label><input type="checkbox" id="Agreed_New"> Agreed with new power prescribed</label>
+      </div>
+    </div>
+
+    <div class="signature-section">
+      <div>
+        <label>Optometrist Name:</label>
+        <input type="text" class="blank" id="Optometrist_Name">
+        <div class="signature-line">Optometrist Signature</div>
+      </div>
+      <div>
+        <label>Customer Name:</label>
+        <input type="text" class="blank" id="Customer_Name">
+        <div class="signature-line">Customer Signature</div>
+      </div>
+    </div>
+  </form>
 
   <button onclick="window.print()">🖨️ Print Full Prescription</button>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const table = document.getElementById('prescriptionTable');
-  const storedData = localStorage.getItem('lastPrescriptionSubmission');
+document.addEventListener('DOMContentLoaded', function(){
+  const storedData = JSON.parse(localStorage.getItem('lastPrescriptionSubmission') || '{}');
 
-  if (!storedData) {
-    table.innerHTML += '<tr><td colspan="2">No previous prescription data found. Please submit the form first.</td></tr>';
-    return;
+  function setValue(id, value){
+    const el = document.getElementById(id);
+    if(el){
+      if(el.type === 'checkbox'){
+        el.checked = (Array.isArray(value) ? value.includes(el.id.replace(/_/g,' ')) : value === el.id.replace(/_/g,' '));
+      } else {
+        el.value = value || '';
+      }
+    }
   }
 
-  const formData = JSON.parse(storedData);
-
-  const displayOrder = [
-    {label: '1. Name', key: 'Name'},
-    {label: '2. Your Email', key: 'email'},
-    {label: '3. Chief Complaint', key: 'Chief Complaint'},
-    {label: '4. History', key: 'History'},
-    {label: '5. Visual Acuity - Without PGP R.E', key: 'Without_PGP_RE'},
-    {label: '5. Visual Acuity - Without PGP L.E', key: 'Without_PGP_LE'},
-    {label: '5. Visual Acuity - With PGP R.E', key: 'With_PGP_RE'},
-    {label: '5. Visual Acuity - With PGP L.E', key: 'With_PGP_LE'},
-    {label: '6. Final RX - OD Sph', key: 'OD_Sph'},
-    {label: '6. Final RX - OD Cyl', key: 'OD_Cyl'},
-    {label: '6. Final RX - OD Axis', key: 'OD_Axis'},
-    {label: '6. Final RX - OD V/A', key: 'OD_VA'},
-    {label: '6. Final RX - OS Sph', key: 'OS_Sph'},
-    {label: '6. Final RX - OS Cyl', key: 'OS_Cyl'},
-    {label: '6. Final RX - OS Axis', key: 'OS_Axis'},
-    {label: '6. Final RX - OS V/A', key: 'OS_VA'},
-    {label: '7. Frame', key: 'Frame'},
-    {label: '8. Lens Type', key: 'Lens Type[]'},
-    {label: '9. Lens Name', key: 'Lens Name'},
-    {label: '10. Lens Index', key: 'Lens Index'},
-    {label: '11. Lens Coating', key: 'Lens Coating'},
-    {label: '12. Advice For', key: 'Advice[]'},
-    {label: '13. Confirmation', key: 'Confirm[]'},
-    {label: 'Optometrist Name', key: 'Optometrist Name'},
-    {label: 'Customer Name', key: 'Customer Name'}
+  // Map form fields
+  const fields = [
+    'Name','email','Chief Complaint','History',
+    'Without_PGP_RE','Without_PGP_LE','With_PGP_RE','With_PGP_LE',
+    'OD_Sph','OD_Cyl','OD_Axis','OD_VA','OS_Sph','OS_Cyl','OS_Axis','OS_VA',
+    'Frame','Lens Name','Lens Index','Lens Coating','Optometrist Name','Customer Name'
   ];
+  fields.forEach(f => setValue(f, storedData[f]));
 
-  displayOrder.forEach(item => {
-    let value = formData[item.key];
-
-    if (Array.isArray(value)) value = value.length ? value.join(', ') : '________';
-    else value = value || '________';
-
-    const row = document.createElement('tr');
-    row.innerHTML = `<th>${item.label}</th><td>${value}</td>`;
-    table.appendChild(row);
-  });
+  // Map checkbox fields
+  const checkboxFields = {
+    'Lens Type[]':['Single Vision','Bifocal','Progressive'],
+    'Advice[]':['Constant Use','Near Use','Distance Use','Day','Night'],
+    'Confirm[]':['OK with previous prescription','Agreed with new power prescribed']
+  };
+  for(const key in checkboxFields){
+    const values = storedData[key] || [];
+    checkboxFields[key].forEach(id => {
+      setValue(id.replace(/ /g,'_'), values.includes(id) ? id : '');
+    });
+  }
 });
 </script>
 
