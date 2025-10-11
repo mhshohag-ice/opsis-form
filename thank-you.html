@@ -57,6 +57,23 @@
       color: #333;
     }
 
+    /* Style for the table in print data */
+    .submitted-data table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        margin-bottom: 20px; /* Add some space below the table */
+    }
+    .submitted-data th, .submitted-data td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 6px;
+    }
+    .submitted-data th {
+        background: #f0f0f0;
+    }
+
+
     button {
       display: block;
       margin: 40px auto 0;
@@ -77,6 +94,22 @@
       button {
         display: none;
       }
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .print-header {
+        margin-bottom: 10px;
+      }
     }
   </style>
 </head>
@@ -89,20 +122,61 @@
       <h3>Prescription</h3>
     </div>
 
-   <!-- <div class="message">
-      <p><strong>Thank you!</strong> Your prescription has been successfully submitted.</p>
-      <p>You can print this page for your records.</p>
-    </div> -->
-
     <div class="submitted-data" id="submittedData">
-      <!-- 👇 FormSubmit doesn’t send back data, 
-           but you can optionally store & retrieve from localStorage 
-           if you use JS on the index page -->
-      <p><em>Form responses will appear here if you store them locally.</em></p>
+      <p>Loading prescription data...</p>
     </div>
 
     <button onclick="window.print()">🖨️ Print Full Prescription</button>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const submittedDataElement = document.getElementById('submittedData');
+      const storedData = localStorage.getItem('lastPrescriptionSubmission');
+
+      if (storedData) {
+        const formData = JSON.parse(storedData);
+        let htmlContent = '';
+
+        // Function to create a clean label from the form field name
+        function formatLabel(key) {
+          return key.replace(/_/g, ' ').replace(/\[\]/g, '').trim() + ':';
+        }
+
+        for (const key in formData) {
+          if (formData.hasOwnProperty(key)) {
+            const value = formData[key];
+
+            if (key.startsWith('OD_') || key.startsWith('OS_')) {
+                // Handle the table data specially
+                // This assumes OD and OS data will come sequentially
+                // A more robust solution might group them first.
+            } else if (Array.isArray(value) && value.length > 0) {
+              htmlContent += `<p><strong>${formatLabel(key)}</strong> ${value.join(', ')}</p>`;
+            } else if (value !== '' && typeof value === 'string') {
+              htmlContent += `<p><strong>${formatLabel(key)}</strong> ${value}</p>`;
+            }
+          }
+        }
+
+        // Reconstruct the table data
+        htmlContent += `<label><strong>6. Final RX:</strong></label>`;
+        htmlContent += `<table><thead><tr><th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>V/A</th></tr></thead><tbody>`;
+        htmlContent += `<tr><td>OD</td><td>${formData['OD_Sph'] || ''}</td><td>${formData['OD_Cyl'] || ''}</td><td>${formData['OD_Axis'] || ''}</td><td>${formData['OD_VA'] || ''}</td></tr>`;
+        htmlContent += `<tr><td>OS</td><td>${formData['OS_Sph'] || ''}</td><td>${formData['OS_Cyl'] || ''}</td><td>${formData['OS_Axis'] || ''}</td><td>${formData['OS_VA'] || ''}</td></tr>`;
+        htmlContent += `</tbody></table>`;
+
+
+        submittedDataElement.innerHTML = htmlContent;
+
+        // Optionally, trigger print automatically
+        // window.print();
+
+      } else {
+        submittedDataElement.innerHTML = '<p>No previous prescription data found. Please submit the form first.</p>';
+      }
+    });
+  </script>
 
 </body>
 </html>
