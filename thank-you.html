@@ -57,7 +57,6 @@
       color: #333;
     }
 
-    /* Style for the table in print data */
     .submitted-data table {
         width: 100%;
         border-collapse: collapse;
@@ -72,7 +71,6 @@
     .submitted-data th {
         background: #f0f0f0;
     }
-
 
     button {
       display: block;
@@ -143,131 +141,96 @@
         const formData = JSON.parse(storedData);
         let htmlContent = '';
 
-        // Helper to format keys into readable labels
         function formatLabel(key) {
-          // Remove potential array brackets and format underscores/dashes
           let formatted = key.replace(/\[\]/g, '').replace(/_/g, ' ').replace(/-/g, ' ').trim();
-          // Capitalize the first letter of each word
           formatted = formatted.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-          // Handle specific numbering or structure if needed
-          if (formatted.match(/^\d+\./)) { // If it starts with a number and a dot (like "1. Name")
-              return formatted;
-          }
           return formatted + ':';
         }
 
-        // Define a desired order of fields for display
+        // Order of display
         const displayOrder = [
-            'Name', 'email', 'Chief Complaint', 'History',
-            'Without_PGP_RE', 'Without_PGP_LE', 'With_PGP_RE', 'With_PGP_LE',
-            'OD_Sph', 'OD_Cyl', 'OD_Axis', 'OD_VA',
-            'OS_Sph', 'OS_Cyl', 'OS_Axis', 'OS_VA',
-            'Frame', 'Lens Type[]', 'Lens Name', 'Lens Index', 'Lens Coating',
-            'Advice[]', 'Confirm[]', 'Optometrist Name', 'Customer Name'
+          'Name', 'email', 'Chief Complaint', 'History',
+          'Without_PGP_RE', 'Without_PGP_LE', 'With_PGP_RE', 'With_PGP_LE',
+          'OD_Sph', 'OD_Cyl', 'OD_Axis', 'OD_VA',
+          'OS_Sph', 'OS_Cyl', 'OS_Axis', 'OS_VA',
+          'Frame', 'Lens Type[]', 'Lens Name', 'Lens Index', 'Lens Coating',
+          'Advice[]', 'Confirm[]', 'Optometrist Name', 'Customer Name'
         ];
 
-        // Create a temporary object to hold data in display order
         const orderedFormData = {};
         displayOrder.forEach(key => {
-            if (formData.hasOwnProperty(key)) {
-                orderedFormData[key] = formData[key];
-            }
+          orderedFormData[key] = formData[key] || (key.includes('[]') ? [] : '');
         });
-        // Add any other keys that might not be in displayOrder (e.g., unexpected fields)
-        for (const key in formData) {
-            if (formData.hasOwnProperty(key) && !displayOrder.includes(key)) {
-                orderedFormData[key] = formData[key];
-            }
-        }
 
-
-        // Loop through the ordered data and generate HTML
         let visualAcuitySectionStarted = false;
         let finalRxTableGenerated = false;
 
         for (const key in orderedFormData) {
-          if (orderedFormData.hasOwnProperty(key)) {
-            const value = orderedFormData[key];
-            let displayValue = '';
-            let displayLabel = formatLabel(key);
+          const value = orderedFormData[key];
+          let displayValue = '';
+          let displayLabel = formatLabel(key);
 
-            // Handle numbered labels directly
-            if (key === 'Name') displayLabel = '1. Name:';
-            else if (key === 'email') displayLabel = '2. Your Email:';
-            else if (key === 'Chief Complaint') displayLabel = '3. Chief Complaint:';
-            else if (key === 'History') displayLabel = '4. History:';
-            else if (key === 'Frame') displayLabel = '7. Frame:';
-            else if (key === 'Lens Type[]') displayLabel = '8. Lens Type:';
-            else if (key === 'Lens Name') displayLabel = '9. Lens Name:';
-            else if (key === 'Lens Index') displayLabel = '10. Lens Index:';
-            else if (key === 'Lens Coating') displayLabel = '11. Lens Coating:';
-            else if (key === 'Advice[]') displayLabel = '12. Advice For:';
-            else if (key === 'Confirm[]') displayLabel = '13. Confirmation:';
+          if (key === 'Name') displayLabel = '1. Name:';
+          else if (key === 'email') displayLabel = '2. Your Email:';
+          else if (key === 'Chief Complaint') displayLabel = '3. Chief Complaint:';
+          else if (key === 'History') displayLabel = '4. History:';
+          else if (key === 'Frame') displayLabel = '7. Frame:';
+          else if (key === 'Lens Type[]') displayLabel = '8. Lens Type:';
+          else if (key === 'Lens Name') displayLabel = '9. Lens Name:';
+          else if (key === 'Lens Index') displayLabel = '10. Lens Index:';
+          else if (key === 'Lens Coating') displayLabel = '11. Lens Coating:';
+          else if (key === 'Advice[]') displayLabel = '12. Advice For:';
+          else if (key === 'Confirm[]') displayLabel = '13. Confirmation:';
 
-            // --- Special handling for Visual Acuity group (5.) ---
-            const visualAcuityKeys = ['Without_PGP_RE', 'Without_PGP_LE', 'With_PGP_RE', 'With_PGP_LE'];
-            if (visualAcuityKeys.includes(key)) {
-                if (!visualAcuitySectionStarted) {
-                    htmlContent += `<p><strong>5. Visual Acuity:</strong></p>`;
-                    visualAcuitySectionStarted = true;
-                }
-                const subLabel = key.replace(/_/g, ' ').trim() + ':';
-                if (typeof value === 'string' && value.trim() !== '') {
-                    htmlContent += `<p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>${subLabel}</strong> ${value}</p>`;
-                }
-                continue; // Skip further processing for visual acuity keys
+          // Visual Acuity (5.)
+          const visualAcuityKeys = ['Without_PGP_RE', 'Without_PGP_LE', 'With_PGP_RE', 'With_PGP_LE'];
+          if (visualAcuityKeys.includes(key)) {
+            if (!visualAcuitySectionStarted) {
+              htmlContent += `<p><strong>5. Visual Acuity:</strong></p>`;
+              visualAcuitySectionStarted = true;
             }
-
-            // --- Special handling for Final RX table (6.) ---
-            const rxTableKeys = ['OD_Sph', 'OD_Cyl', 'OD_Axis', 'OD_VA', 'OS_Sph', 'OS_Cyl', 'OS_Axis', 'OS_VA'];
-            if (rxTableKeys.includes(key) && !finalRxTableGenerated) {
-                // Check if any RX data exists to decide if we should render the table header
-                const hasRxData = rxTableKeys.some(rxKey => orderedFormData[rxKey] && orderedFormData[rxKey].trim() !== '');
-
-                if (hasRxData) {
-                    htmlContent += `
-                        <p><strong>6. Final RX:</strong></p>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>V/A</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>OD</td>
-                                    <td>${orderedFormData['OD_Sph'] || ''}</td>
-                                    <td>${orderedFormData['OD_Cyl'] || ''}</td>
-                                    <td>${orderedFormData['OD_Axis'] || ''}</td>
-                                    <td>${orderedFormData['OD_VA'] || ''}</td>
-                                </tr>
-                                <tr>
-                                    <td>OS</td>
-                                    <td>${orderedFormData['OS_Sph'] || ''}</td>
-                                    <td>${orderedFormData['OS_Cyl'] || ''}</td>
-                                    <td>${orderedFormData['OS_Axis'] || ''}</td>
-                                    <td>${orderedFormData['OS_VA'] || ''}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    `;
-                }
-                finalRxTableGenerated = true; // Ensure the table is only generated once
-                continue; // Skip further processing for RX table keys
-            }
-
-            // --- General field display ---
-            if (Array.isArray(value) && value.length > 0) {
-              displayValue = value.join(', ');
-            } else if (typeof value === 'string' && value.trim() !== '') {
-              displayValue = value;
-            } else {
-              // Skip empty strings or empty arrays for general fields
-              continue;
-            }
-
-            htmlContent += `<p><strong>${displayLabel}</strong> ${displayValue}</p>`;
+            const subLabel = key.replace(/_/g, ' ') + ':';
+            displayValue = value || '________';
+            htmlContent += `<p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>${subLabel}</strong> ${displayValue}</p>`;
+            continue;
           }
+
+          // Final RX Table (6.)
+          const rxTableKeys = ['OD_Sph', 'OD_Cyl', 'OD_Axis', 'OD_VA', 'OS_Sph', 'OS_Cyl', 'OS_Axis', 'OS_VA'];
+          if (rxTableKeys.includes(key) && !finalRxTableGenerated) {
+            htmlContent += `
+              <p><strong>6. Final RX:</strong></p>
+              <table>
+                <thead>
+                  <tr><th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>V/A</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>OD</td>
+                    <td>${orderedFormData['OD_Sph'] || ''}</td>
+                    <td>${orderedFormData['OD_Cyl'] || ''}</td>
+                    <td>${orderedFormData['OD_Axis'] || ''}</td>
+                    <td>${orderedFormData['OD_VA'] || ''}</td>
+                  </tr>
+                  <tr>
+                    <td>OS</td>
+                    <td>${orderedFormData['OS_Sph'] || ''}</td>
+                    <td>${orderedFormData['OS_Cyl'] || ''}</td>
+                    <td>${orderedFormData['OS_Axis'] || ''}</td>
+                    <td>${orderedFormData['OS_VA'] || ''}</td>
+                  </tr>
+                </tbody>
+              </table>
+            `;
+            finalRxTableGenerated = true;
+            continue;
+          }
+
+          // General fields (show blanks if empty)
+          if (Array.isArray(value)) displayValue = value.length > 0 ? value.join(', ') : '________';
+          else displayValue = value || '________';
+
+          htmlContent += `<p><strong>${displayLabel}</strong> ${displayValue}</p>`;
         }
 
         submittedDataElement.innerHTML = htmlContent;
