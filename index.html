@@ -18,137 +18,7 @@
       margin: auto;
       background: #fff;
       padding: 30px 40px;
-      border: 1px solid #ccc; /* 👈 Solid form border */
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.08);
-    }
-
-    .logo {
-      display: flex;
-      justify-content: center;
-      margin-bottom: -30px;
-    }
-
-    .logo img {
-      width: 120px;
-      height: auto;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #333;
-    }
-
-    label {
-      font-weight: bold;
-      margin-top: 15px;
-      display: block;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      border: 1px solid #bbb;
-    }
-
-    textarea {
-      resize: vertical;
-    }
-
-    .group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      text-align: center;
-      padding: 6px;
-    }
-
-    th {
-      background: #f0f0f0;
-    }
-
-    .checkbox-group label {
-      display: inline-block;
-      margin-right: 15px;
-      font-weight: normal;
-    }
-
-    .signature-section {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-      gap: 20px;
-    }
-
-    .signature-section div {
-      width: 48%;
-    }
-
-    .signature-line {
-      border-top: 1px solid #000;
-      margin-top: 30px;
-      text-align: center;
-      font-style: italic;
-    }
-
-    input[type="submit"] {
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-      width: 100%;
-    }
-
-    input[type="submit"]:hover {
-      background: #0056b3;
-    }
-  </style>
-</head>
-<body>
-
-  
-
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Opsis Vision Center - Prescription Form</title>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      margin: 0;
-      padding: 40px 0;
-    }
-
-    .container {
-      max-width: 750px;
-      margin: auto;
-      background: #fff;
-      padding: 30px 40px;
-      border: 1px solid #ccc; /* 👈 Solid border */
+      border: 1px solid #ccc;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.08);
     }
@@ -192,20 +62,20 @@
     }
 
     .group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-.group label {
-  width: 150px;
-  font-weight: normal;
-}
+    .group label {
+      width: 150px;
+      font-weight: normal;
+    }
 
-.group input {
-  flex: 1;
-  padding: 5px;
-}
+    .group input {
+      flex: 1;
+      padding: 5px;
+    }
 
     table {
       width: 100%;
@@ -267,19 +137,18 @@
 <body>
 
   <div class="container">
-    <!-- 👇 Add your logo here -->
     <div class="logo">
       <img src="logo.png" alt="Opsis Vision Center Logo">
     </div>
 
     <h2>Opsis Vision Center - Prescription Form</h2>
 
-    <form action="https://formsubmit.co/mhshohag.ice@gmail.com" method="POST">
+    <form action="https://formsubmit.co/mhshohag.ice@gmail.com" method="POST" id="prescriptionForm">
 
       <label for="name">1. Name:</label>
       <input type="text" name="Name" required>
 
-      <label for="email">2. Your Email:</label>
+      <label for="user-email">2. Your Email:</label>
       <input type="email" id="user-email" name="email" required>
 
       <label for="complaint">3. Chief Complaint:</label>
@@ -289,22 +158,21 @@
       <textarea name="History" rows="3"></textarea>
 
       <label>5. Visual Acuity:</label>
-<div class="group">
-  <label for="without-pgp-re">Without PGP - R.E:</label>
-  <input type="text" id="without-pgp-re" name="Without_PGP_RE">
+      <div class="group">
+        <label for="without-pgp-re">Without PGP - R.E:</label>
+        <input type="text" id="without-pgp-re" name="Without_PGP_RE">
 
-  <label for="without-pgp-le">Without PGP - L.E:</label>
-  <input type="text" id="without-pgp-le" name="Without_PGP_LE">
-</div>
+        <label for="without-pgp-le">Without PGP - L.E:</label>
+        <input type="text" id="without-pgp-le" name="Without_PGP_LE">
+      </div>
 
-<div class="group">
-  <label for="with-pgp-re">With PGP - R.E:</label>
-  <input type="text" id="with-pgp-re" name="With_PGP_RE">
+      <div class="group">
+        <label for="with-pgp-re">With PGP - R.E:</label>
+        <input type="text" id="with-pgp-re" name="With_PGP_RE">
 
-  <label for="with-pgp-le">With PGP - L.E:</label>
-  <input type="text" id="with-pgp-le" name="With_PGP_LE">
-</div>
-
+        <label for="with-pgp-le">With PGP - L.E:</label>
+        <input type="text" id="with-pgp-le" name="With_PGP_LE">
+      </div>
 
       <label>6. Final RX:</label>
       <table>
@@ -383,11 +251,17 @@
       <!-- Hidden Formsubmit settings -->
       <input type="hidden" name="_next" value="https://mhshohag-ice.github.io/thank-you.html">
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_cc" value="">
+      <!-- The _cc field will be dynamically populated by JavaScript -->
+      <input type="hidden" name="_cc" id="cc-email-field" value="">
     </form>
   </div>
 
+  <script>
+    document.getElementById('prescriptionForm').addEventListener('submit', function() {
+      const customerEmail = document.getElementById('user-email').value;
+      document.getElementById('cc-email-field').value = customerEmail;
+    });
+  </script>
+
 </body>
 </html>
-
-
