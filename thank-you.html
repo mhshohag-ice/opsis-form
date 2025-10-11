@@ -18,6 +18,7 @@
   th, td {border:1px solid #ddd; text-align:center; padding:6px;}
   th {background:#f0f0f0;}
   .checkbox-group label {display:inline-block; margin-right:15px; font-weight: normal;}
+  .checkbox-box {display:inline-block; width:18px; height:18px; border:1px solid #000; text-align:center; line-height:16px; margin-right:5px; vertical-align:middle;}
   .signature-section {display:flex; justify-content:space-between; margin-top:30px; gap:20px;}
   .signature-section div {width:48%;}
   .signature-line {border-top:1px solid #000; margin-top:30px; text-align:center; font-style:italic;}
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function(){
   const container = document.getElementById('formDataDisplay');
 
   function createField(label, value){
-    return `<label>${label}</label><div class="value">${value || ''}</div>`;
+    return `<label>${label}</label><div class="value">${value && value.trim() !== '' ? value : '--'}</div>`;
   }
 
   let html = '';
@@ -62,10 +63,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Visual Acuity
   html += `<label>5. Visual Acuity:</label>`;
-  html += `<div class="group"><label>Without PGP - R.E:</label><div class="value">${data['Without_PGP_RE']||''}</div>`;
-  html += `<label>Without PGP - L.E:</label><div class="value">${data['Without_PGP_LE']||''}</div></div>`;
-  html += `<div class="group"><label>With PGP - R.E:</label><div class="value">${data['With_PGP_RE']||''}</div>`;
-  html += `<label>With PGP - L.E:</label><div class="value">${data['With_PGP_LE']||''}</div></div>`;
+  html += `<div class="group"><label>Without PGP - R.E:</label><div class="value">${data['Without_PGP_RE'] || '--'}</div>`;
+  html += `<label>Without PGP - L.E:</label><div class="value">${data['Without_PGP_LE'] || '--'}</div></div>`;
+  html += `<div class="group"><label>With PGP - R.E:</label><div class="value">${data['With_PGP_RE'] || '--'}</div>`;
+  html += `<label>With PGP - L.E:</label><div class="value">${data['With_PGP_LE'] || '--'}</div></div>`;
 
   // Final RX Table
   html += `<label>6. Final RX:</label>`;
@@ -74,17 +75,17 @@ document.addEventListener('DOMContentLoaded', function(){
     <tbody>
       <tr>
         <td>OD</td>
-        <td>${data['OD_Sph']||''}</td>
-        <td>${data['OD_Cyl']||''}</td>
-        <td>${data['OD_Axis']||''}</td>
-        <td>${data['OD_VA']||''}</td>
+        <td>${data['OD_Sph']||'--'}</td>
+        <td>${data['OD_Cyl']||'--'}</td>
+        <td>${data['OD_Axis']||'--'}</td>
+        <td>${data['OD_VA']||'--'}</td>
       </tr>
       <tr>
         <td>OS</td>
-        <td>${data['OS_Sph']||''}</td>
-        <td>${data['OS_Cyl']||''}</td>
-        <td>${data['OS_Axis']||''}</td>
-        <td>${data['OS_VA']||''}</td>
+        <td>${data['OS_Sph']||'--'}</td>
+        <td>${data['OS_Cyl']||'--'}</td>
+        <td>${data['OS_Axis']||'--'}</td>
+        <td>${data['OS_VA']||'--'}</td>
       </tr>
     </tbody>
   </table>`;
@@ -94,7 +95,8 @@ document.addEventListener('DOMContentLoaded', function(){
   // Lens Type
   html += `<label>8. Lens Type:</label><div class="checkbox-group">`;
   ['Single Vision','Bifocal','Progressive'].forEach(v=>{
-    html += `<label>${v} ${data['Lens Type[]']?.includes(v)?'✅':''}</label>`;
+    const checked = data['Lens Type[]']?.includes(v) ? '✔' : '';
+    html += `<label><span class="checkbox-box">${checked}</span>${v}</label>`;
   });
   html += `</div>`;
 
@@ -105,21 +107,23 @@ document.addEventListener('DOMContentLoaded', function(){
   // Advice
   html += `<label>12. Advice For:</label><div class="checkbox-group">`;
   ['Constant Use','Near Use','Distance Use','Day','Night'].forEach(v=>{
-    html += `<label>${v} ${data['Advice[]']?.includes(v)?'✅':''}</label>`;
+    const checked = data['Advice[]']?.includes(v) ? '✔' : '';
+    html += `<label><span class="checkbox-box">${checked}</span>${v}</label>`;
   });
   html += `</div>`;
 
   // Confirmation
   html += `<label>13. Confirmation:</label><div class="checkbox-group">`;
   ['OK with previous prescription','Agreed with new power prescribed'].forEach(v=>{
-    html += `<label>${v} ${data['Confirm[]']?.includes(v)?'✅':''}</label>`;
+    const checked = data['Confirm[]']?.includes(v) ? '✔' : '';
+    html += `<label><span class="checkbox-box">${checked}</span>${v}</label>`;
   });
   html += `</div>`;
 
   // Signatures
   html += `<div class="signature-section">
-    <div><label>Optometrist Name:</label><div class="value">${data['Optometrist Name']||''}</div><div class="signature-line">Optometrist Signature</div></div>
-    <div><label>Customer Name:</label><div class="value">${data['Customer Name']||''}</div><div class="signature-line">Customer Signature</div></div>
+    <div>${createField('Optometrist Name:', data['Optometrist Name'])}<div class="signature-line">Optometrist Signature</div></div>
+    <div>${createField('Customer Name:', data['Customer Name'])}<div class="signature-line">Customer Signature</div></div>
   </div>`;
 
   container.innerHTML = html;
