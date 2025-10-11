@@ -9,16 +9,16 @@
       font-family: Arial, sans-serif;
       background: #f5f7fa;
       margin: 0;
-      padding: 40px 0;
+      padding: 20px 0;
     }
 
     .container {
-      max-width: 850px;
+      max-width: 900px;
       margin: auto;
       background: #fff;
-      padding: 30px 40px;
+      padding: 20px;
       border: 1px solid #000;
-      border-radius: 10px;
+      border-radius: 6px;
     }
 
     .print-header {
@@ -28,7 +28,7 @@
 
     .print-header .logo {
       width: 120px;
-      margin-bottom: -25px;
+      margin-bottom: -20px;
     }
 
     .print-header h2 {
@@ -42,39 +42,29 @@
       color: #333;
     }
 
-    .message {
-      text-align: center;
-      font-size: 18px;
-      margin-bottom: 30px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
     }
 
-    .submitted-data {
-      font-size: 15px;
-      line-height: 1.6;
+    table, th, td {
+      border: 1px solid #000;
     }
 
-    .submitted-data strong {
-      color: #333;
+    th, td {
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
     }
 
-    .submitted-data table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-    .submitted-data th, .submitted-data td {
-        border: 1px solid #ddd;
-        text-align: center;
-        padding: 6px;
-    }
-    .submitted-data th {
-        background: #f0f0f0;
+    th {
+      background: #f0f0f0;
     }
 
     button {
       display: block;
-      margin: 40px auto 0;
+      margin: 20px auto 0;
       padding: 10px 25px;
       font-size: 16px;
       background: #007bff;
@@ -98,148 +88,85 @@
       }
       .container {
         border: none;
-        box-shadow: none;
         border-radius: 0;
+        box-shadow: none;
         width: 100%;
         max-width: 100%;
-        margin: 0;
         padding: 0;
-      }
-      .print-header {
-        margin-bottom: 10px;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="container" id="printArea">
-    <div class="print-header">
-      <img src="logo.png" alt="Opsis Vision Center Logo" class="logo">
-      <h2>OPSIS VISION CENTER</h2>
-      <h3>Prescription</h3>
-    </div>
-
-    <div class="message">
-      <p><strong>Thank you!</strong> Your prescription has been successfully submitted.</p>
-      <p>You can print this page for your records.</p>
-    </div>
-
-    <div class="submitted-data" id="submittedData">
-      <p>Loading prescription data...</p>
-    </div>
-
-    <button onclick="window.print()">🖨️ Print Full Prescription</button>
+<div class="container">
+  <div class="print-header">
+    <img src="logo.png" alt="Opsis Vision Center Logo" class="logo">
+    <h2>OPSIS VISION CENTER</h2>
+    <h3>Prescription</h3>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const submittedDataElement = document.getElementById('submittedData');
-      const storedData = localStorage.getItem('lastPrescriptionSubmission');
+  <table id="prescriptionTable">
+    <tbody>
+      <tr><td colspan="2" style="text-align:center;"><strong>Thank you! Your prescription has been submitted.</strong></td></tr>
+    </tbody>
+  </table>
 
-      if (storedData) {
-        const formData = JSON.parse(storedData);
-        let htmlContent = '';
+  <button onclick="window.print()">🖨️ Print Full Prescription</button>
+</div>
 
-        function formatLabel(key) {
-          let formatted = key.replace(/\[\]/g, '').replace(/_/g, ' ').replace(/-/g, ' ').trim();
-          formatted = formatted.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-          return formatted + ':';
-        }
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const table = document.getElementById('prescriptionTable');
+  const storedData = localStorage.getItem('lastPrescriptionSubmission');
 
-        // Order of display
-        const displayOrder = [
-          'Name', 'email', 'Chief Complaint', 'History',
-          'Without_PGP_RE', 'Without_PGP_LE', 'With_PGP_RE', 'With_PGP_LE',
-          'OD_Sph', 'OD_Cyl', 'OD_Axis', 'OD_VA',
-          'OS_Sph', 'OS_Cyl', 'OS_Axis', 'OS_VA',
-          'Frame', 'Lens Type[]', 'Lens Name', 'Lens Index', 'Lens Coating',
-          'Advice[]', 'Confirm[]', 'Optometrist Name', 'Customer Name'
-        ];
+  if (!storedData) {
+    table.innerHTML += '<tr><td colspan="2">No previous prescription data found. Please submit the form first.</td></tr>';
+    return;
+  }
 
-        const orderedFormData = {};
-        displayOrder.forEach(key => {
-          orderedFormData[key] = formData[key] || (key.includes('[]') ? [] : '');
-        });
+  const formData = JSON.parse(storedData);
 
-        let visualAcuitySectionStarted = false;
-        let finalRxTableGenerated = false;
+  const displayOrder = [
+    {label: '1. Name', key: 'Name'},
+    {label: '2. Your Email', key: 'email'},
+    {label: '3. Chief Complaint', key: 'Chief Complaint'},
+    {label: '4. History', key: 'History'},
+    {label: '5. Visual Acuity - Without PGP R.E', key: 'Without_PGP_RE'},
+    {label: '5. Visual Acuity - Without PGP L.E', key: 'Without_PGP_LE'},
+    {label: '5. Visual Acuity - With PGP R.E', key: 'With_PGP_RE'},
+    {label: '5. Visual Acuity - With PGP L.E', key: 'With_PGP_LE'},
+    {label: '6. Final RX - OD Sph', key: 'OD_Sph'},
+    {label: '6. Final RX - OD Cyl', key: 'OD_Cyl'},
+    {label: '6. Final RX - OD Axis', key: 'OD_Axis'},
+    {label: '6. Final RX - OD V/A', key: 'OD_VA'},
+    {label: '6. Final RX - OS Sph', key: 'OS_Sph'},
+    {label: '6. Final RX - OS Cyl', key: 'OS_Cyl'},
+    {label: '6. Final RX - OS Axis', key: 'OS_Axis'},
+    {label: '6. Final RX - OS V/A', key: 'OS_VA'},
+    {label: '7. Frame', key: 'Frame'},
+    {label: '8. Lens Type', key: 'Lens Type[]'},
+    {label: '9. Lens Name', key: 'Lens Name'},
+    {label: '10. Lens Index', key: 'Lens Index'},
+    {label: '11. Lens Coating', key: 'Lens Coating'},
+    {label: '12. Advice For', key: 'Advice[]'},
+    {label: '13. Confirmation', key: 'Confirm[]'},
+    {label: 'Optometrist Name', key: 'Optometrist Name'},
+    {label: 'Customer Name', key: 'Customer Name'}
+  ];
 
-        for (const key in orderedFormData) {
-          const value = orderedFormData[key];
-          let displayValue = '';
-          let displayLabel = formatLabel(key);
+  displayOrder.forEach(item => {
+    let value = formData[item.key];
 
-          if (key === 'Name') displayLabel = '1. Name:';
-          else if (key === 'email') displayLabel = '2. Your Email:';
-          else if (key === 'Chief Complaint') displayLabel = '3. Chief Complaint:';
-          else if (key === 'History') displayLabel = '4. History:';
-          else if (key === 'Frame') displayLabel = '7. Frame:';
-          else if (key === 'Lens Type[]') displayLabel = '8. Lens Type:';
-          else if (key === 'Lens Name') displayLabel = '9. Lens Name:';
-          else if (key === 'Lens Index') displayLabel = '10. Lens Index:';
-          else if (key === 'Lens Coating') displayLabel = '11. Lens Coating:';
-          else if (key === 'Advice[]') displayLabel = '12. Advice For:';
-          else if (key === 'Confirm[]') displayLabel = '13. Confirmation:';
+    if (Array.isArray(value)) value = value.length ? value.join(', ') : '________';
+    else value = value || '________';
 
-          // Visual Acuity (5.)
-          const visualAcuityKeys = ['Without_PGP_RE', 'Without_PGP_LE', 'With_PGP_RE', 'With_PGP_LE'];
-          if (visualAcuityKeys.includes(key)) {
-            if (!visualAcuitySectionStarted) {
-              htmlContent += `<p><strong>5. Visual Acuity:</strong></p>`;
-              visualAcuitySectionStarted = true;
-            }
-            const subLabel = key.replace(/_/g, ' ') + ':';
-            displayValue = value || '________';
-            htmlContent += `<p>&nbsp;&nbsp;&nbsp;&nbsp;<strong>${subLabel}</strong> ${displayValue}</p>`;
-            continue;
-          }
-
-          // Final RX Table (6.)
-          const rxTableKeys = ['OD_Sph', 'OD_Cyl', 'OD_Axis', 'OD_VA', 'OS_Sph', 'OS_Cyl', 'OS_Axis', 'OS_VA'];
-          if (rxTableKeys.includes(key) && !finalRxTableGenerated) {
-            htmlContent += `
-              <p><strong>6. Final RX:</strong></p>
-              <table>
-                <thead>
-                  <tr><th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>V/A</th></tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>OD</td>
-                    <td>${orderedFormData['OD_Sph'] || ''}</td>
-                    <td>${orderedFormData['OD_Cyl'] || ''}</td>
-                    <td>${orderedFormData['OD_Axis'] || ''}</td>
-                    <td>${orderedFormData['OD_VA'] || ''}</td>
-                  </tr>
-                  <tr>
-                    <td>OS</td>
-                    <td>${orderedFormData['OS_Sph'] || ''}</td>
-                    <td>${orderedFormData['OS_Cyl'] || ''}</td>
-                    <td>${orderedFormData['OS_Axis'] || ''}</td>
-                    <td>${orderedFormData['OS_VA'] || ''}</td>
-                  </tr>
-                </tbody>
-              </table>
-            `;
-            finalRxTableGenerated = true;
-            continue;
-          }
-
-          // General fields (show blanks if empty)
-          if (Array.isArray(value)) displayValue = value.length > 0 ? value.join(', ') : '________';
-          else displayValue = value || '________';
-
-          htmlContent += `<p><strong>${displayLabel}</strong> ${displayValue}</p>`;
-        }
-
-        submittedDataElement.innerHTML = htmlContent;
-
-      } else {
-        submittedDataElement.innerHTML = '<p>No previous prescription data found. Please submit the form first.</p>';
-      }
-    });
-  </script>
+    const row = document.createElement('tr');
+    row.innerHTML = `<th>${item.label}</th><td>${value}</td>`;
+    table.appendChild(row);
+  });
+});
+</script>
 
 </body>
 </html>
