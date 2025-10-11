@@ -4,286 +4,389 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Opsis Vision Center - Prescription Form</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: #f5f7fa;
       margin: 0;
-      background-color: #f5f5f5;
-      color: #333;
+      padding: 40px 0;
     }
-    header {
-      background-color: #00557f;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-    }
-    header p {
-      margin: 5px 0 0;
-    }
-    main {
-      max-width: 900px;
+
+    .container {
+      max-width: 750px;
       margin: auto;
       background: #fff;
-      padding: 30px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 30px 40px;
+      border: 1px solid #ccc; /* 👈 Solid form border */
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
     }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: -30px;
+    }
+
+    .logo img {
+      width: 120px;
+      height: auto;
+    }
+
     h2 {
-      color: #00557f;
-      margin-bottom: 10px;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
     }
+
     label {
-      display: block;
-      margin-top: 15px;
       font-weight: bold;
+      margin-top: 15px;
+      display: block;
     }
+
     input[type="text"],
     input[type="email"],
     textarea {
       width: 100%;
       padding: 8px;
       margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box; /* Ensures padding doesn't increase width */
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #bbb;
     }
+
+    textarea {
+      resize: vertical;
+    }
+
     .group {
       display: flex;
-      gap: 20px;
-      margin-bottom: 15px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
-    .group input {
-      flex: 1;
-    }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
-      margin-bottom: 20px;
     }
+
     th, td {
-      border: 1px solid #ccc;
-      padding: 6px;
+      border: 1px solid #ddd;
       text-align: center;
+      padding: 6px;
     }
-    .checkbox-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
+
+    th {
+      background: #f0f0f0;
     }
+
     .checkbox-group label {
+      display: inline-block;
+      margin-right: 15px;
       font-weight: normal;
     }
+
     .signature-section {
       display: flex;
       justify-content: space-between;
       margin-top: 30px;
+      gap: 20px;
     }
+
+    .signature-section div {
+      width: 48%;
+    }
+
     .signature-line {
-      width: 45%;
       border-top: 1px solid #000;
-      text-align: center;
-      font-size: 14px;
-      margin-top: 50px;
-    }
-    input[type="submit"] {
       margin-top: 30px;
-      background-color: #00557f;
+      text-align: center;
+      font-style: italic;
+    }
+
+    input[type="submit"] {
+      background: #007bff;
       color: white;
-      padding: 12px 25px;
       border: none;
-      border-radius: 5px;
+      padding: 10px 20px;
+      border-radius: 6px;
       font-size: 16px;
       cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
     }
+
     input[type="submit"]:hover {
-      background-color: #00415f;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      color: #555;
+      background: #0056b3;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Opsis Vision Center</h1>
-  <p>Concord Sohel Square, G-A, 75 Satmasjid Road, Dhanmondi, Dhaka-1209</p>
-</header>
+  
 
-<main>
-  <h2>Spectacles Prescription Form</h2>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opsis Vision Center - Prescription Form</title>
 
-  <form id="prescriptionForm" action="https://formsubmit.co/mhshohag.ice@gmail.com" method="POST">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 40px 0;
+    }
 
-    <label for="name">1. Name:</label>
-    <input type="text" name="Name" required>
+    .container {
+      max-width: 750px;
+      margin: auto;
+      background: #fff;
+      padding: 30px 40px;
+      border: 1px solid #ccc; /* 👈 Solid border */
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+    }
 
-    <label for="email">2. Your Email:</label>
-    <input type="email" id="user-email" name="email" required>
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: -34px;
+    }
 
-    <label for="complaint">3. Chief Complaint:</label>
-    <textarea name="Chief Complaint" rows="3"></textarea>
+    .logo img {
+      width: 120px;
+      height: auto;
+    }
 
-    <label for="history">4. History:</label>
-    <textarea name="History" rows="3"></textarea>
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
 
-    <label>5. Visual Acuity:</label>
-    <div class="group">
-      <input type="text" name="Without PGP - R.E" placeholder="Without PGP - R.E">
-      <input type="text" name="Without PGP - L.E" placeholder="Without PGP - L.E">
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #bbb;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.group label {
+  width: 150px;
+  font-weight: normal;
+}
+
+.group input {
+  flex: 1;
+  padding: 5px;
+}
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      text-align: center;
+      padding: 6px;
+    }
+
+    th {
+      background: #f0f0f0;
+    }
+
+    .checkbox-group label {
+      display: inline-block;
+      margin-right: 15px;
+      font-weight: normal;
+    }
+
+    .signature-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      gap: 20px;
+    }
+
+    .signature-section div {
+      width: 48%;
+    }
+
+    .signature-line {
+      border-top: 1px solid #000;
+      margin-top: 30px;
+      text-align: center;
+      font-style: italic;
+    }
+
+    input[type="submit"] {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    input[type="submit"]:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 👇 Add your logo here -->
+    <div class="logo">
+      <img src="logo.png" alt="Opsis Vision Center Logo">
     </div>
-    <div class="group">
-      <input type="text" name="With PGP - R.E" placeholder="With PGP - R.E">
-      <input type="text" name="With PGP - L.E" placeholder="With PGP - L.E">
-    </div>
 
-    <label>6. Final RX:</label>
-    <table>
-      <thead>
-        <tr>
-          <th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>ADD</th><th>Prism</th><th>Base</th><th>V/A</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>OD</td>
-          <td><input type="text" name="OD_Sph"></td>
-          <td><input type="text" name="OD_Cyl"></td>
-          <td><input type="text" name="OD_Axis"></td>
-          <td><input type="text" name="OD_ADD"></td>
-          <td><input type="text" name="OD_Prism"></td>
-          <td><input type="text" name="OD_Base"></td>
-          <td><input type="text" name="OD_VA"></td>
-        </tr>
-        <tr>
-          <td>OS</td>
-          <td><input type="text" name="OS_Sph"></td>
-          <td><input type="text" name="OS_Cyl"></td>
-          <td><input type="text" name="OS_Axis"></td>
-          <td><input type="text" name="OS_ADD"></td>
-          <td><input type="text" name="OS_Prism"></td>
-          <td><input type="text" name="OS_Base"></td>
-          <td><input type="text" name="OS_VA"></td>
-        </tr>
-      </tbody>
-    </table>
+    <h2>Opsis Vision Center - Prescription Form</h2>
 
-    <label for="frame">7. Frame:</label>
-    <input type="text" name="Frame">
+    <form action="https://formsubmit.co/youremail@example.com" method="POST">
 
-    <label for="lens_type">8. Lens Type:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="Lens Type[]" value="Single Vision"> Single Vision</label>
-      <label><input type="checkbox" name="Lens Type[]" value="Bifocal"> Bifocal</label>
-      <label><input type="checkbox" name="Lens Type[]" value="Progressive"> Progressive</label>
-    </div>
+      <label for="name">1. Name:</label>
+      <input type="text" name="Name" required>
 
-    <label for="lens_name">9. Lens Name:</label>
-    <input type="text" name="Lens Name">
+      <label for="email">2. Your Email:</label>
+      <input type="email" id="user-email" name="email" required>
 
-    <label for="lens_index">10. Lens Index:</label>
-    <input type="text" name="Lens Index">
+      <label for="complaint">3. Chief Complaint:</label>
+      <textarea name="Chief Complaint" rows="3"></textarea>
 
-    <label for="lens_coating">11. Lens Coating:</label>
-    <input type="text" name="Lens Coating">
+      <label for="history">4. History:</label>
+      <textarea name="History" rows="3"></textarea>
 
-    <label>12. Advice For:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="Advice[]" value="Constant Use"> Constant Use</label>
-      <label><input type="checkbox" name="Advice[]" value="Near Use"> Near Use</label>
-      <label><input type="checkbox" name="Advice[]" value="Distance Use"> Distance Use</label>
-      <label><input type="checkbox" name="Advice[]" value="Day"> Day</label>
-      <label><input type="checkbox" name="Advice[]" value="Night"> Night</label>
-    </div>
+      <label>5. Visual Acuity:</label>
+<div class="group">
+  <label for="without-pgp-re">Without PGP - R.E:</label>
+  <input type="text" id="without-pgp-re" name="Without_PGP_RE">
 
-    <label>13. Confirmation:</label>
-    <div class="checkbox-group">
-      <label><input type="checkbox" name="Confirm[]" value="OK with previous prescription"> OK with my previous prescription</label>
-      <label><input type="checkbox" name="Confirm[]" value="Agreed with new power"> Agreed with new power prescribed</label>
-    </div>
+  <label for="without-pgp-le">Without PGP - L.E:</label>
+  <input type="text" id="without-pgp-le" name="Without_PGP_LE">
+</div>
 
-    <div class="signature-section">
-      <div>
-        <label>Optometrist Name:</label>
-        <input type="text" name="Optometrist Name">
-        <div class="signature-line">Optometrist Signature</div>
+<div class="group">
+  <label for="with-pgp-re">With PGP - R.E:</label>
+  <input type="text" id="with-pgp-re" name="With_PGP_RE">
+
+  <label for="with-pgp-le">With PGP - L.E:</label>
+  <input type="text" id="with-pgp-le" name="With_PGP_LE">
+</div>
+
+
+      <label>6. Final RX:</label>
+      <table>
+        <thead>
+          <tr>
+            <th></th><th>Sph</th><th>Cyl</th><th>Axis</th><th>V/A</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>OD</td>
+            <td><input type="text" name="OD_Sph"></td>
+            <td><input type="text" name="OD_Cyl"></td>
+            <td><input type="text" name="OD_Axis"></td>
+            <td><input type="text" name="OD_VA"></td>
+          </tr>
+          <tr>
+            <td>OS</td>
+            <td><input type="text" name="OS_Sph"></td>
+            <td><input type="text" name="OS_Cyl"></td>
+            <td><input type="text" name="OS_Axis"></td>
+            <td><input type="text" name="OS_VA"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <label for="frame">7. Frame:</label>
+      <input type="text" name="Frame">
+
+      <label for="lens_type">8. Lens Type:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="Lens Type[]" value="Single Vision"> Single Vision</label>
+        <label><input type="checkbox" name="Lens Type[]" value="Bifocal"> Bifocal</label>
+        <label><input type="checkbox" name="Lens Type[]" value="Progressive"> Progressive</label>
       </div>
-      <div>
-        <label>Customer Name:</label>
-        <input type="text" name="Customer Name">
-        <div class="signature-line">Customer Signature</div>
+
+      <label for="lens_name">9. Lens Name:</label>
+      <input type="text" name="Lens Name">
+
+      <label for="lens_index">10. Lens Index:</label>
+      <input type="text" name="Lens Index">
+
+      <label for="lens_coating">11. Lens Coating:</label>
+      <input type="text" name="Lens Coating">
+
+      <label>12. Advice For:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="Advice[]" value="Constant Use"> Constant Use</label>
+        <label><input type="checkbox" name="Advice[]" value="Near Use"> Near Use</label>
+        <label><input type="checkbox" name="Advice[]" value="Distance Use"> Distance Use</label>
+        <label><input type="checkbox" name="Advice[]" value="Day"> Day</label>
+        <label><input type="checkbox" name="Advice[]" value="Night"> Night</label>
       </div>
-    </div>
 
-    <input type="submit" value="Submit Prescription">
+      <label>13. Confirmation:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="Confirm[]" value="OK with previous prescription"> OK with my previous prescription</label>
+        <label><input type="checkbox" name="Confirm[]" value="Agreed with new power"> Agreed with new power prescribed</label>
+      </div>
 
-    <!-- Hidden Formsubmit settings -->
-    <input type="hidden" id="cc-email" name="_cc" value="">
-    <input type="hidden" name="_next" value="https://mhshohag-ice.github.io/thank-you.html">
-    <input type="hidden" name="_captcha" value="false">
-     <!--<input type="hidden" name="_template" value="table">-->
-  </form>
-</main>
+      <div class="signature-section">
+        <div>
+          <label>Optometrist Name:</label>
+          <input type="text" name="Optometrist Name">
+          <div class="signature-line">Optometrist Signature</div>
+        </div>
+        <div>
+          <label>Customer Name:</label>
+          <input type="text" name="Customer Name">
+          <div class="signature-line">Customer Signature</div>
+        </div>
+      </div>
 
-<footer>
-  &copy; 2025 Opsis Vision Center. All rights reserved.
-</footer>
+      <input type="submit" value="Submit Prescription">
 
-<!-- JavaScript to auto-fill _cc field and store form data in localStorage -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('prescriptionForm');
-    const userEmailInput = document.getElementById('user-email');
-    const ccEmailInput = document.getElementById('cc-email');
+      <!-- Hidden Formsubmit settings -->
+      <input type="hidden" name="_next" value="https://mhshohag-ice.github.io/thank-you.html">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_cc" value="">
+    </form>
+  </div>
 
-    form.addEventListener('submit', function (event) {
-      // Set the CC email field
-      ccEmailInput.value = userEmailInput.value;
-
-      // --- NEW CODE FOR STORING DATA IN LOCALSTORAGE ---
-      const formData = {};
-      const inputs = form.querySelectorAll('input, textarea, select'); // Get all relevant inputs
-
-      inputs.forEach(input => {
-        if (input.name) { // Only process fields with a 'name' attribute
-          if (input.type === 'checkbox') {
-            if (!formData[input.name]) { // Initialize array for checkboxes if not exists
-              formData[input.name] = [];
-            }
-            if (input.checked) {
-              formData[input.name].push(input.value);
-            }
-          } else if (input.type === 'radio') {
-            if (input.checked) {
-              formData[input.name] = input.value;
-            }
-          } else {
-            formData[input.name] = input.value;
-          }
-        }
-      });
-
-      // Special handling for hidden fields we don't want to display on thank-you page
-      // It's good to remove these as they are Formsubmit's configuration, not user input
-      delete formData['_cc'];
-      delete formData['_next'];
-      delete formData['_captcha'];
-      // If you had a hidden _template field, delete that too:
-      // delete formData['_template'];
-
-      // Store the cleaned data in localStorage as a JSON string
-      localStorage.setItem('lastPrescriptionSubmission', JSON.stringify(formData));
-      // --- END NEW CODE ---
-    });
-  });
-</script>
 </body>
 </html>
 
